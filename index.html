@@ -121,6 +121,17 @@
         .icon-sun  { display: none; }
         html.dark .icon-moon { display: none; }
         html.dark .icon-sun  { display: inline-block; }
+
+        /* ── Task 1: Hero text contrast ── */
+        .hero h1,
+        .hero p {
+            text-shadow: 0 3px 12px rgba(0,0,0,0.65);
+        }
+
+        /* ── Task 3: Gallery caption readability ── */
+        #gallery .absolute p {
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
     </style>
 </head>
 
@@ -158,7 +169,7 @@
                         <i data-lucide="sun"  class="icon-sun  w-4 h-4"></i>
                     </button>
 
-                    <a href="#contact" class="bg-amethyst-900 hover:bg-amethyst-800 dark:bg-amethyst-700 dark:hover:bg-amethyst-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-colors flex items-center gap-2">
+                    <a href="#contact" class="bg-amethyst-900 hover:bg-amethyst-800 dark:bg-amethyst-700 dark:hover:bg-amethyst-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors flex items-center gap-2">
                         <i data-lucide="calendar" class="w-4 h-4"></i>
                         Book Now
                     </a>
@@ -195,7 +206,7 @@
     <!-- ════════════════════════════════════════
          HERO
     ════════════════════════════════════════ -->
-    <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+    <header class="hero max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div class="max-w-3xl">
 
             <div class="inline-flex items-center gap-2 bg-amethyst-100 dark:bg-amethyst-900/60 text-amethyst-900 dark:text-amethyst-300 text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-8 fade-in-up border border-transparent dark:border-amethyst-700">
@@ -970,8 +981,10 @@
                         </div>
                         <div>
                             <p class="text-xs text-slate-500 dark:text-amethyst-500 font-semibold uppercase tracking-wider mb-1">Location</p>
-                            <p class="font-bold text-slate-900 dark:text-white">98 Trinity Street</p>
-                            <p class="text-sm text-slate-500 dark:text-amethyst-400">Gainsborough, DN21 1HS</p>
+                            <address class="not-italic">
+                                <p class="font-bold text-slate-900 dark:text-white">98 Trinity Street</p>
+                                <p class="text-sm text-slate-500 dark:text-amethyst-400">Gainsborough<br>DN21 1HS</p>
+                            </address>
                         </div>
                     </div>
 
@@ -1032,7 +1045,7 @@
 
             <div class="mt-10 pt-8 border-t border-amethyst-900 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-amethyst-500 text-sm">
-                    &copy; 2026 Amethyst Nails & Beauty, Trinity, Gainsborough. All rights reserved.
+                    &copy; 2026 Amethyst Nails & Beauty, 98 Trinity Street, Gainsborough, DN21 1HS. All rights reserved.
                 </p>
                 <p class="text-amethyst-600 text-xs">
                     All technicians are fully qualified and insured. HEMA-free products used throughout.
