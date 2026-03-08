@@ -10,8 +10,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Dark mode applied before page renders to avoid flash -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('amethyst-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || (!saved && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -37,19 +50,32 @@
             }
         }
     </script>
+
     <style>
-        /* Scrollbar-hidden gallery */
+        /* ── Gallery scrollbar ── */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Smooth scroll */
         html { scroll-behavior: smooth; }
 
-        /* Mobile nav */
+        /* ── Mobile nav ── */
         #mobile-menu { display: none; }
         #mobile-menu.open { display: block; }
 
-        /* Fade-in animation */
+        /* ── Page background gradients ──
+           Light: barely-there purple bloom at top
+           Dark:  rich deep-amethyst bloom fading to near-black */
+        body {
+            background-color: #faf8ff;
+            background-image: radial-gradient(ellipse 90% 45% at 50% -5%, #e8d8ff 0%, #faf8ff 65%);
+            transition: background-color 0.3s ease, background-image 0.3s ease;
+        }
+        html.dark body {
+            background-color: #0f0a1f;
+            background-image: radial-gradient(ellipse 90% 45% at 50% -5%, #2d1060 0%, #0f0a1f 65%);
+        }
+
+        /* ── Fade-in animation ── */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -59,52 +85,76 @@
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
+
+        /* ── Dark mode toggle icon swap ── */
+        .icon-moon { display: inline-block; }
+        .icon-sun  { display: none; }
+        html.dark .icon-moon { display: none; }
+        html.dark .icon-sun  { display: inline-block; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amethyst-300 selection:text-amethyst-900">
+
+<!-- Body bg controlled by CSS above; text and selection adapt -->
+<body class="text-slate-900 dark:text-white font-sans antialiased selection:bg-amethyst-300 selection:text-amethyst-900 dark:selection:bg-amethyst-700 dark:selection:text-white">
+
 
     <!-- ════════════════════════════════════════
          NAVIGATION
     ════════════════════════════════════════ -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <nav class="sticky top-0 z-50 bg-white/85 dark:bg-amethyst-950/90 backdrop-blur-md border-b border-slate-200 dark:border-amethyst-800 shadow-sm transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
 
                 <!-- Logo -->
                 <a href="#" class="flex items-center gap-2 group">
-                    <i data-lucide="gem" class="text-amethyst-900 h-6 w-6 group-hover:text-amethyst-600 transition-colors"></i>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">
-                        Amethyst <span class="text-amethyst-900">Nails & Beauty</span>
+                    <i data-lucide="gem" class="text-amethyst-900 dark:text-amethyst-400 h-6 w-6 group-hover:text-amethyst-600 transition-colors"></i>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 dark:text-white">
+                        Amethyst <span class="text-amethyst-900 dark:text-amethyst-400">Nails & Beauty</span>
                     </span>
                 </a>
 
                 <!-- Desktop Nav -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#services" class="text-sm font-medium text-slate-600 hover:text-amethyst-900 transition-colors">Services</a>
-                    <a href="#why-us" class="text-sm font-medium text-slate-600 hover:text-amethyst-900 transition-colors">Why Us</a>
-                    <a href="#team" class="text-sm font-medium text-slate-600 hover:text-amethyst-900 transition-colors">Our Team</a>
-                    <a href="#gallery" class="text-sm font-medium text-slate-600 hover:text-amethyst-900 transition-colors">Gallery</a>
-                    <a href="#contact" class="bg-amethyst-900 hover:bg-amethyst-800 text-white px-5 py-2 rounded-full text-sm font-semibold transition-colors flex items-center gap-2">
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#services" class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Services</a>
+                    <a href="#why-us"   class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Why Us</a>
+                    <a href="#team"     class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Our Team</a>
+                    <a href="#gallery"  class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Gallery</a>
+
+                    <!-- Dark mode toggle -->
+                    <button onclick="toggleDarkMode()" aria-label="Toggle dark mode"
+                        class="p-2 rounded-full text-slate-500 dark:text-amethyst-400 hover:bg-amethyst-100 dark:hover:bg-amethyst-800 transition-colors">
+                        <i data-lucide="moon" class="icon-moon w-4 h-4"></i>
+                        <i data-lucide="sun"  class="icon-sun  w-4 h-4"></i>
+                    </button>
+
+                    <a href="#contact" class="bg-amethyst-900 hover:bg-amethyst-800 dark:bg-amethyst-700 dark:hover:bg-amethyst-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-colors flex items-center gap-2">
                         <i data-lucide="calendar" class="w-4 h-4"></i>
                         Book Now
                     </a>
                 </div>
 
-                <!-- Mobile hamburger -->
-                <button id="hamburger" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-amethyst-900 hover:bg-amethyst-50 transition-colors" aria-label="Open menu">
-                    <i data-lucide="menu" class="w-6 h-6" id="hamburger-icon"></i>
-                </button>
+                <!-- Mobile: toggle + hamburger -->
+                <div class="md:hidden flex items-center gap-2">
+                    <button onclick="toggleDarkMode()" aria-label="Toggle dark mode"
+                        class="p-2 rounded-full text-slate-500 dark:text-amethyst-400 hover:bg-amethyst-100 dark:hover:bg-amethyst-800 transition-colors">
+                        <i data-lucide="moon" class="icon-moon w-5 h-5"></i>
+                        <i data-lucide="sun"  class="icon-sun  w-5 h-5"></i>
+                    </button>
+                    <button id="hamburger" onclick="toggleMobileMenu()" class="p-2 rounded-lg text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white hover:bg-amethyst-50 dark:hover:bg-amethyst-800 transition-colors" aria-label="Open menu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-100 px-4 pb-4 pt-2">
+        <div id="mobile-menu" class="md:hidden bg-white dark:bg-amethyst-950 border-t border-slate-100 dark:border-amethyst-800 px-4 pb-4 pt-2 transition-colors">
             <div class="flex flex-col gap-1">
-                <a href="#services" onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 font-medium rounded-lg hover:bg-amethyst-50 hover:text-amethyst-900 transition-colors">Services</a>
-                <a href="#why-us" onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 font-medium rounded-lg hover:bg-amethyst-50 hover:text-amethyst-900 transition-colors">Why Us</a>
-                <a href="#team" onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 font-medium rounded-lg hover:bg-amethyst-50 hover:text-amethyst-900 transition-colors">Our Team</a>
-                <a href="#gallery" onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 font-medium rounded-lg hover:bg-amethyst-50 hover:text-amethyst-900 transition-colors">Gallery</a>
-                <a href="#contact" onclick="toggleMobileMenu()" class="mt-2 py-3 px-4 bg-amethyst-900 text-white font-semibold rounded-xl text-center hover:bg-amethyst-800 transition-colors">Book an Appointment</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Services</a>
+                <a href="#why-us"   onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Why Us</a>
+                <a href="#team"     onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Our Team</a>
+                <a href="#gallery"  onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Gallery</a>
+                <a href="#contact"  onclick="toggleMobileMenu()" class="mt-2 py-3 px-4 bg-amethyst-900 dark:bg-amethyst-700 text-white font-semibold rounded-xl text-center hover:bg-amethyst-800 dark:hover:bg-amethyst-600 transition-colors">Book an Appointment</a>
             </div>
         </div>
     </nav>
@@ -116,33 +166,34 @@
     <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div class="max-w-3xl">
 
-            <div class="inline-flex items-center gap-2 bg-amethyst-100 text-amethyst-900 text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-8 fade-in-up">
+            <div class="inline-flex items-center gap-2 bg-amethyst-100 dark:bg-amethyst-900/60 text-amethyst-900 dark:text-amethyst-300 text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-8 fade-in-up border border-transparent dark:border-amethyst-700">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
                 Trinity, Gainsborough
             </div>
 
-            <h1 class="font-serif text-5xl md:text-7xl font-black tracking-tight text-slate-900 mb-6 fade-in-up delay-100 leading-none">
+            <h1 class="font-serif text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 fade-in-up delay-100 leading-none">
                 Expert Artistry.<br>
-                <span class="text-amethyst-900">Clean Chemistry.</span>
+                <span class="text-amethyst-900 dark:text-amethyst-400">Clean Chemistry.</span>
             </h1>
 
             <!-- AEO-ready answer block -->
-            <div class="bg-amethyst-50 border-l-4 border-amethyst-900 p-6 rounded-r-2xl mb-8 shadow-sm fade-in-up delay-200">
-                <p class="text-lg text-slate-800 font-medium leading-relaxed" id="aeo-summary">
+            <div class="bg-white/70 dark:bg-amethyst-900/40 border-l-4 border-amethyst-900 dark:border-amethyst-500 p-6 rounded-r-2xl mb-8 shadow-sm backdrop-blur-sm fade-in-up delay-200">
+                <p class="text-lg text-slate-800 dark:text-amethyst-100 font-medium leading-relaxed" id="aeo-summary">
                     Amethyst Nails & Beauty is Gainsborough's leading specialist in non-toxic, medical-grade manicures, lash extensions, and brow treatments. Our fully licensed technicians use 100% HEMA-free products and advanced anhydrous preparation to protect your natural nail health — delivering results that outlast anything you'll find at a budget salon.
                 </p>
             </div>
 
-            <p class="text-slate-600 text-xl mb-10 fade-in-up delay-300">
+            <p class="text-slate-600 dark:text-amethyst-300 text-xl mb-10 fade-in-up delay-300">
                 Stop paying for damage. Invest in scientific efficacy and immaculate design.
             </p>
 
             <div class="flex flex-wrap gap-4 fade-in-up delay-400">
-                <a href="#services" class="bg-amethyst-900 hover:bg-amethyst-800 text-white font-bold px-8 py-4 rounded-full text-base transition-all transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl flex items-center gap-2">
+                <a href="#services" class="bg-amethyst-900 hover:bg-amethyst-800 dark:bg-amethyst-700 dark:hover:bg-amethyst-600 text-white font-bold px-8 py-4 rounded-full text-base transition-all transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl flex items-center gap-2">
                     <i data-lucide="sparkles" class="w-5 h-5"></i>
                     View Our Services
                 </a>
-                <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment%20at%20Amethyst%20Nails%20%26%20Beauty." target="_blank" rel="noopener" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full text-base transition-all transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl flex items-center gap-2">
+                <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment%20at%20Amethyst%20Nails%20%26%20Beauty." target="_blank" rel="noopener"
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full text-base transition-all transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl flex items-center gap-2">
                     <i data-lucide="message-circle" class="w-5 h-5"></i>
                     WhatsApp Us
                 </a>
@@ -154,111 +205,114 @@
     <!-- ════════════════════════════════════════
          SERVICES
     ════════════════════════════════════════ -->
-    <section id="services" class="py-24 bg-white">
+    <section id="services" class="py-24 bg-white/60 dark:bg-amethyst-950/70 backdrop-blur-sm border-y border-slate-100 dark:border-amethyst-900 transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">Our Services</h2>
-                <p class="text-slate-600 text-lg">Every treatment is performed by fully qualified, insured technicians using premium, skin-safe products.</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Our Services</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg">Every treatment is performed by fully qualified, insured technicians using premium, skin-safe products.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- BIAB -->
-                <div class="group bg-slate-50 hover:bg-amethyst-50 border border-slate-100 hover:border-amethyst-200 p-8 rounded-2xl transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-amethyst-100 group-hover:bg-amethyst-200 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 transition-colors">
+                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                    <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="flask-conical" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-3">BIAB — Builder Gel</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">BIAB — Builder Gel</h3>
+                    <p class="text-slate-600 dark:text-amethyst-300 leading-relaxed text-sm">
                         Builder In A Bottle applied over your natural nail for structured strength and length. HEMA-free formula bonds without weakening the nail plate. Lasts 3–4 weeks with zero lifting.
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">HEMA-Free</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">3–4 week wear</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">HEMA-Free</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">3–4 week wear</span>
                     </div>
                 </div>
 
                 <!-- Gel Polish -->
-                <div class="group bg-slate-50 hover:bg-amethyst-50 border border-slate-100 hover:border-amethyst-200 p-8 rounded-2xl transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-amethyst-100 group-hover:bg-amethyst-200 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 transition-colors">
+                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                    <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="paintbrush" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-3">Gel Polish & Colour</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">Gel Polish & Colour</h3>
+                    <p class="text-slate-600 dark:text-amethyst-300 leading-relaxed text-sm">
                         Our gel polish system uses clean, professional-grade formulations for chip-resistant colour that won't stain or dehydrate. Available in hundreds of shades — including French and ombré finishes.
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">2–3 week wear</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">French available</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">2–3 week wear</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">French available</span>
                     </div>
                 </div>
 
                 <!-- Nail Art & Chrome -->
-                <div class="group bg-slate-50 hover:bg-amethyst-50 border border-slate-100 hover:border-amethyst-200 p-8 rounded-2xl transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-amethyst-100 group-hover:bg-amethyst-200 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 transition-colors">
+                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                    <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="wand-2" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-3">Nail Art & Chrome</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">Nail Art & Chrome</h3>
+                    <p class="text-slate-600 dark:text-amethyst-300 leading-relaxed text-sm">
                         Bespoke nail art, chrome powder overlays, foils, and intricate linework — all by hand. From minimal micro-French to editorial statement sets, we design to your brief and your nail shape.
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Chrome & Foil</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Bespoke design</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Chrome & Foil</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Bespoke design</span>
                     </div>
                 </div>
 
                 <!-- Lash Extensions -->
-                <div class="group bg-slate-50 hover:bg-amethyst-50 border border-slate-100 hover:border-amethyst-200 p-8 rounded-2xl transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-amethyst-100 group-hover:bg-amethyst-200 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 transition-colors">
+                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                    <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="eye" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-3">Lash Extensions</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">Lash Extensions</h3>
+                    <p class="text-slate-600 dark:text-amethyst-300 leading-relaxed text-sm">
                         Classic and Russian Volume lash extensions applied using medical-grade, lash-safe adhesive. We map each set to your eye shape for a result that enhances — never overwhelms. Infills available.
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Classic</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Russian Volume</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Infills</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Classic</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Russian Volume</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Infills</span>
                     </div>
                 </div>
 
                 <!-- Brow Treatments -->
-                <div class="group bg-slate-50 hover:bg-amethyst-50 border border-slate-100 hover:border-amethyst-200 p-8 rounded-2xl transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-amethyst-100 group-hover:bg-amethyst-200 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 transition-colors">
+                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                    <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="pencil" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-3">Brow Design & Lamination</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">Brow Design & Lamination</h3>
+                    <p class="text-slate-600 dark:text-amethyst-300 leading-relaxed text-sm">
                         Brow lamination, shaping, and waxing to sculpt the perfect arch. We assess your bone structure and natural growth pattern before lifting and setting your brows for up to 8 weeks of perfect definition.
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Lamination</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Waxing & shaping</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Lamination</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Waxing & shaping</span>
                     </div>
                 </div>
 
                 <!-- Tinting -->
-                <div class="group bg-slate-50 hover:bg-amethyst-50 border border-slate-100 hover:border-amethyst-200 p-8 rounded-2xl transition-all hover:shadow-md">
-                    <div class="w-12 h-12 bg-amethyst-100 group-hover:bg-amethyst-200 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 transition-colors">
+                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                    <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="droplets" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-3">Lash & Brow Tinting</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-3">Lash & Brow Tinting</h3>
+                    <p class="text-slate-600 dark:text-amethyst-300 leading-relaxed text-sm">
                         Professional-grade lash lift and tint, and brow tinting using skin-safe dyes. Adds definition and intensity with no daily maintenance. Results last 4–6 weeks and are patch-tested as standard.
                     </p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">Patch tested</span>
-                        <span class="text-xs bg-amethyst-100 text-amethyst-900 px-2.5 py-1 rounded-full font-medium">4–6 week wear</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Patch tested</span>
+                        <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">4–6 week wear</span>
                     </div>
                 </div>
 
             </div>
 
-            <p class="text-center mt-12 text-slate-500 text-sm">
-                Not sure what you need? <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20some%20advice%20on%20which%20service%20is%20right%20for%20me." target="_blank" rel="noopener" class="text-amethyst-900 font-semibold hover:underline">Message us on WhatsApp</a> — we'll recommend the right treatment for your nails and skin.
+            <p class="text-center mt-12 text-slate-500 dark:text-amethyst-400 text-sm">
+                Not sure what you need?
+                <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20some%20advice%20on%20which%20service%20is%20right%20for%20me." target="_blank" rel="noopener"
+                    class="text-amethyst-900 dark:text-amethyst-400 font-semibold hover:underline">Message us on WhatsApp</a>
+                — we'll recommend the right treatment for your nails and skin.
             </p>
         </div>
     </section>
@@ -267,78 +321,72 @@
     <!-- ════════════════════════════════════════
          WHY CHOOSE AMETHYST
     ════════════════════════════════════════ -->
-    <section id="why-us" class="py-24 bg-slate-900 text-white">
+    <section id="why-us" class="py-24 bg-slate-900 dark:bg-amethyst-950 text-white transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
                 <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Why Budget Salons Cost You More</h2>
-                <p class="text-slate-400 text-lg">There's a reason our clients leave other salons and never go back. It's not just the results — it's what we refuse to cut corners on.</p>
+                <p class="text-slate-400 dark:text-amethyst-400 text-lg">There's a reason our clients leave other salons and never go back. It's not just the results — it's what we refuse to cut corners on.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- HEMA-Free -->
-                <div class="bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
-                    <div class="w-12 h-12 bg-amethyst-900/50 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
+                <div class="bg-slate-800 dark:bg-amethyst-900/60 hover:bg-slate-750 dark:hover:bg-amethyst-900 border border-slate-700 dark:border-amethyst-800 hover:border-amethyst-600 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
+                    <div class="w-12 h-12 bg-amethyst-900/50 dark:bg-amethyst-800/60 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
                         <i data-lucide="flask-conical" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">100% HEMA-Free Products</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-400 dark:text-amethyst-300 text-sm leading-relaxed">
                         HEMA (Hydroxyethyl Methacrylate) is the cheap allergen found in most budget acrylic and gel systems. It causes contact dermatitis, nail bed separation, and permanent sensitisation. We use exclusively HEMA-free medical-grade formulations — full stop.
                     </p>
                 </div>
 
-                <!-- Anhydrous prep -->
-                <div class="bg-slate-800 border border-slate-700 hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
-                    <div class="w-12 h-12 bg-amethyst-900/50 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
+                <div class="bg-slate-800 dark:bg-amethyst-900/60 hover:bg-slate-750 dark:hover:bg-amethyst-900 border border-slate-700 dark:border-amethyst-800 hover:border-amethyst-600 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
+                    <div class="w-12 h-12 bg-amethyst-900/50 dark:bg-amethyst-800/60 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
                         <i data-lucide="droplets" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">Anhydrous Preparation</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-400 dark:text-amethyst-300 text-sm leading-relaxed">
                         Water swells the nail plate. Traditional wet manicures guarantee your enhancement will chip and lift as the nail shrinks back. Our dry, anhydrous prep creates a mechanical bond that locks out lifting and delivers weeks of flawless wear.
                     </p>
                 </div>
 
-                <!-- Fully licensed -->
-                <div class="bg-slate-800 border border-slate-700 hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
-                    <div class="w-12 h-12 bg-amethyst-900/50 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
+                <div class="bg-slate-800 dark:bg-amethyst-900/60 hover:bg-slate-750 dark:hover:bg-amethyst-900 border border-slate-700 dark:border-amethyst-800 hover:border-amethyst-600 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
+                    <div class="w-12 h-12 bg-amethyst-900/50 dark:bg-amethyst-800/60 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
                         <i data-lucide="shield-check" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">Fully Licensed Technicians</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-400 dark:text-amethyst-300 text-sm leading-relaxed">
                         Every technician at Amethyst holds current, verifiable qualifications in their specialism. No apprentices working unsupervised. No unlicensed staff. Just trained professionals who understand nail anatomy, skin health, and safe chemistry.
                     </p>
                 </div>
 
-                <!-- Nail health first -->
-                <div class="bg-slate-800 border border-slate-700 hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
-                    <div class="w-12 h-12 bg-amethyst-900/50 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
+                <div class="bg-slate-800 dark:bg-amethyst-900/60 hover:bg-slate-750 dark:hover:bg-amethyst-900 border border-slate-700 dark:border-amethyst-800 hover:border-amethyst-600 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
+                    <div class="w-12 h-12 bg-amethyst-900/50 dark:bg-amethyst-800/60 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
                         <i data-lucide="heart-pulse" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">Nail Health First</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-400 dark:text-amethyst-300 text-sm leading-relaxed">
                         We won't apply an enhancement over a damaged or infected nail. We'd rather decline the booking and advise you on rehabilitation than take your money and make the problem worse. Your long-term nail health matters more than a single appointment.
                     </p>
                 </div>
 
-                <!-- Premium products -->
-                <div class="bg-slate-800 border border-slate-700 hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
-                    <div class="w-12 h-12 bg-amethyst-900/50 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
+                <div class="bg-slate-800 dark:bg-amethyst-900/60 hover:bg-slate-750 dark:hover:bg-amethyst-900 border border-slate-700 dark:border-amethyst-800 hover:border-amethyst-600 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
+                    <div class="w-12 h-12 bg-amethyst-900/50 dark:bg-amethyst-800/60 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
                         <i data-lucide="award" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">Premium UK Product Lines</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-400 dark:text-amethyst-300 text-sm leading-relaxed">
                         We invest in professional product lines — not the cheap imports stocked by budget salons. Every product we use is selected for its safety profile, performance, and longevity. Better products mean better results and healthier nails.
                     </p>
                 </div>
 
-                <!-- Aftercare -->
-                <div class="bg-slate-800 border border-slate-700 hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
-                    <div class="w-12 h-12 bg-amethyst-900/50 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
+                <div class="bg-slate-800 dark:bg-amethyst-900/60 hover:bg-slate-750 dark:hover:bg-amethyst-900 border border-slate-700 dark:border-amethyst-800 hover:border-amethyst-600 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all group">
+                    <div class="w-12 h-12 bg-amethyst-900/50 dark:bg-amethyst-800/60 group-hover:bg-amethyst-900 rounded-xl flex items-center justify-center mb-5 text-amethyst-400 transition-colors">
                         <i data-lucide="clipboard-list" class="w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">Personalised Aftercare</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-400 dark:text-amethyst-300 text-sm leading-relaxed">
                         You leave with specific written aftercare instructions matched to your treatment — not a generic leaflet. We're also available on WhatsApp between appointments if you have questions, concerns, or unexpected lifting.
                     </p>
                 </div>
@@ -371,7 +419,7 @@
 
         <div id="gallery-track" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 sm:px-6 lg:px-8 pb-8 no-scrollbar">
 
-            <div class="snap-center shrink-0 w-72 h-88 bg-amethyst-900 rounded-2xl overflow-hidden relative group" style="height:22rem">
+            <div class="snap-center shrink-0 w-72 bg-amethyst-900 rounded-2xl overflow-hidden relative group" style="height:22rem">
                 <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=400&q=80"
                     alt="Structural builder gel nails" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition duration-500">
                 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-amethyst-950 to-transparent">
@@ -436,49 +484,49 @@
     <!-- ════════════════════════════════════════
          MEET THE TEAM
     ════════════════════════════════════════ -->
-    <section id="team" class="py-24 bg-white">
+    <section id="team" class="py-24 bg-white/60 dark:bg-amethyst-950/70 backdrop-blur-sm border-y border-slate-100 dark:border-amethyst-900 transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">Our Team</h2>
-                <p class="text-slate-600 text-lg">You're not being handed off to whoever's free. Every technician at Amethyst is a specialist.</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Our Team</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg">You're not being handed off to whoever's free. Every technician at Amethyst is a specialist.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
 
                 <!-- Roz -->
                 <div class="text-center group">
-                    <div class="w-32 h-32 mx-auto mb-5 rounded-full bg-amethyst-100 flex items-center justify-center text-amethyst-900 border-4 border-amethyst-200 group-hover:border-amethyst-400 transition-colors overflow-hidden">
-                        <i data-lucide="user-round" class="w-16 h-16 text-amethyst-400"></i>
+                    <div class="w-32 h-32 mx-auto mb-5 rounded-full bg-amethyst-100 dark:bg-amethyst-900 flex items-center justify-center text-amethyst-900 dark:text-amethyst-400 border-4 border-amethyst-200 dark:border-amethyst-800 group-hover:border-amethyst-400 dark:group-hover:border-amethyst-500 transition-colors overflow-hidden">
+                        <i data-lucide="user-round" class="w-16 h-16 text-amethyst-400 dark:text-amethyst-600"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-1">Roz</h3>
-                    <p class="text-amethyst-900 font-semibold text-sm mb-3">Owner & Head Nail Technician</p>
-                    <p class="text-slate-600 text-sm leading-relaxed">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-1">Roz</h3>
+                    <p class="text-amethyst-900 dark:text-amethyst-400 font-semibold text-sm mb-3">Owner & Head Nail Technician</p>
+                    <p class="text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
                         Roz founded Amethyst with a clear mission: offer Gainsborough genuinely excellent nail care, not just quick, cheap appointments. She leads on BIAB, gel enhancements, and bespoke nail art.
                     </p>
                 </div>
 
                 <!-- Lindsay -->
                 <div class="text-center group">
-                    <div class="w-32 h-32 mx-auto mb-5 rounded-full bg-amethyst-100 flex items-center justify-center text-amethyst-900 border-4 border-amethyst-200 group-hover:border-amethyst-400 transition-colors overflow-hidden">
-                        <i data-lucide="user-round" class="w-16 h-16 text-amethyst-400"></i>
+                    <div class="w-32 h-32 mx-auto mb-5 rounded-full bg-amethyst-100 dark:bg-amethyst-900 flex items-center justify-center text-amethyst-900 dark:text-amethyst-400 border-4 border-amethyst-200 dark:border-amethyst-800 group-hover:border-amethyst-400 dark:group-hover:border-amethyst-500 transition-colors overflow-hidden">
+                        <i data-lucide="user-round" class="w-16 h-16 text-amethyst-400 dark:text-amethyst-600"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-1">Lindsay</h3>
-                    <p class="text-amethyst-900 font-semibold text-sm mb-3">Senior Nail Technician</p>
-                    <p class="text-slate-600 text-sm leading-relaxed">
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-1">Lindsay</h3>
+                    <p class="text-amethyst-900 dark:text-amethyst-400 font-semibold text-sm mb-3">Senior Nail Technician</p>
+                    <p class="text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
                         Lindsay specialises in precision gel work, chrome overlays, and detailed nail art. Known for immaculate application and a results-first approach that keeps clients coming back every three weeks.
                     </p>
                 </div>
 
                 <!-- Beauty -->
                 <div class="text-center group">
-                    <div class="w-32 h-32 mx-auto mb-5 rounded-full bg-amethyst-100 flex items-center justify-center text-amethyst-900 border-4 border-amethyst-200 group-hover:border-amethyst-400 transition-colors overflow-hidden">
-                        <i data-lucide="user-round" class="w-16 h-16 text-amethyst-400"></i>
+                    <div class="w-32 h-32 mx-auto mb-5 rounded-full bg-amethyst-100 dark:bg-amethyst-900 flex items-center justify-center text-amethyst-900 dark:text-amethyst-400 border-4 border-amethyst-200 dark:border-amethyst-800 group-hover:border-amethyst-400 dark:group-hover:border-amethyst-500 transition-colors overflow-hidden">
+                        <i data-lucide="user-round" class="w-16 h-16 text-amethyst-400 dark:text-amethyst-600"></i>
                     </div>
-                    <h3 class="font-serif text-xl font-bold text-slate-900 mb-1">Beauty</h3>
-                    <p class="text-amethyst-900 font-semibold text-sm mb-3">Beauty Specialist</p>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Beauty handles all lash extensions, brow lamination, tinting, and brow design. She takes a clinical approach to every eye treatment — assessing lash health before every application and following strict adhesive protocols.
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-1">Sorcha</h3>
+                    <p class="text-amethyst-900 dark:text-amethyst-400 font-semibold text-sm mb-3">Beauty Specialist</p>
+                    <p class="text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
+                        Sorcha handles all lash extensions, brow lamination, tinting, and brow design. She takes a clinical approach to every eye treatment — assessing lash health before every application and following strict adhesive protocols.
                     </p>
                 </div>
 
@@ -491,7 +539,6 @@
          AR TRY-ON (COMING SOON)
     ════════════════════════════════════════ -->
     <section class="py-20 bg-amethyst-900 text-white relative overflow-hidden">
-        <!-- Decorative background -->
         <div class="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 rounded-full bg-amethyst-700 blur-3xl opacity-30 pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 rounded-full bg-amethyst-950 blur-3xl opacity-40 pointer-events-none"></div>
 
@@ -515,7 +562,8 @@
             </div>
 
             <p class="mt-8 text-amethyst-400 text-sm">
-                <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20to%20be%20notified%20when%20the%20AR%20Try-On%20feature%20launches." target="_blank" rel="noopener" class="underline hover:text-amethyst-200 transition-colors">Join the waitlist via WhatsApp</a> to be first to try it.
+                <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20to%20be%20notified%20when%20the%20AR%20Try-On%20feature%20launches." target="_blank" rel="noopener"
+                    class="underline hover:text-amethyst-200 transition-colors">Join the waitlist via WhatsApp</a> to be first to try it.
             </p>
         </div>
     </section>
@@ -524,75 +572,75 @@
     <!-- ════════════════════════════════════════
          CONTACT & BOOKING
     ════════════════════════════════════════ -->
-    <section id="contact" class="py-24 bg-slate-50">
+    <section id="contact" class="py-24 transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">Book an Appointment</h2>
-                <p class="text-slate-600 text-lg">Skip generic booking forms. Speak directly to our technicians to discuss your needs and get the right appointment first time.</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Book an Appointment</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg">Skip generic booking forms. Speak directly to our technicians to discuss your needs and get the right appointment first time.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
-                <!-- WhatsApp CTA (primary) -->
-                <div class="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm flex flex-col items-center text-center gap-5">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                <!-- WhatsApp CTA -->
+                <div class="bg-white/70 dark:bg-amethyst-900/40 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-8 shadow-sm backdrop-blur-sm flex flex-col items-center text-center gap-5 transition-colors">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900/40 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
                         <i data-lucide="message-circle" class="w-8 h-8"></i>
                     </div>
                     <div>
-                        <h3 class="font-serif text-xl font-bold text-slate-900 mb-2">WhatsApp</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-5">Message us directly. Tell us what you'd like, ask questions about nail health, or send inspo pictures. We'll sort the rest.</p>
+                        <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-2">WhatsApp</h3>
+                        <p class="text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed mb-5">Message us directly. Tell us what you'd like, ask questions about nail health, or send inspo pictures. We'll sort the rest.</p>
                     </div>
                     <a href="https://wa.me/441427617211?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment%20at%20Amethyst%20Nails%20%26%20Beauty." target="_blank" rel="noopener"
                         class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 shadow-md hover:shadow-lg">
                         <i data-lucide="message-circle" class="w-5 h-5"></i>
                         Start WhatsApp Consultation
                     </a>
-                    <p class="text-xs text-slate-500 font-medium">Average response: under 1 hour during clinic hours</p>
+                    <p class="text-xs text-slate-500 dark:text-amethyst-500 font-medium">Average response: under 1 hour during clinic hours</p>
                 </div>
 
                 <!-- Phone & Info -->
                 <div class="flex flex-col gap-5">
 
-                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                        <div class="w-12 h-12 bg-amethyst-100 rounded-xl flex items-center justify-center text-amethyst-900 shrink-0">
+                    <div class="bg-white/70 dark:bg-amethyst-900/40 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 shadow-sm backdrop-blur-sm flex items-center gap-5 transition-colors">
+                        <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 rounded-xl flex items-center justify-center text-amethyst-900 dark:text-amethyst-400 shrink-0">
                             <i data-lucide="phone" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Phone</p>
-                            <a href="tel:01427617211" class="text-xl font-bold text-slate-900 hover:text-amethyst-900 transition-colors">01427 617211</a>
+                            <p class="text-xs text-slate-500 dark:text-amethyst-500 font-semibold uppercase tracking-wider mb-1">Phone</p>
+                            <a href="tel:01427617211" class="text-xl font-bold text-slate-900 dark:text-white hover:text-amethyst-900 dark:hover:text-amethyst-400 transition-colors">01427 617211</a>
                         </div>
                     </div>
 
-                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex items-center gap-5">
-                        <div class="w-12 h-12 bg-amethyst-100 rounded-xl flex items-center justify-center text-amethyst-900 shrink-0">
+                    <div class="bg-white/70 dark:bg-amethyst-900/40 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 shadow-sm backdrop-blur-sm flex items-center gap-5 transition-colors">
+                        <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 rounded-xl flex items-center justify-center text-amethyst-900 dark:text-amethyst-400 shrink-0">
                             <i data-lucide="map-pin" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-1">Location</p>
-                            <p class="font-bold text-slate-900">Trinity, Gainsborough</p>
-                            <p class="text-sm text-slate-500">Lincolnshire</p>
+                            <p class="text-xs text-slate-500 dark:text-amethyst-500 font-semibold uppercase tracking-wider mb-1">Location</p>
+                            <p class="font-bold text-slate-900 dark:text-white">Trinity, Gainsborough</p>
+                            <p class="text-sm text-slate-500 dark:text-amethyst-400">Lincolnshire</p>
                         </div>
                     </div>
 
-                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex items-start gap-5">
-                        <div class="w-12 h-12 bg-amethyst-100 rounded-xl flex items-center justify-center text-amethyst-900 shrink-0">
+                    <div class="bg-white/70 dark:bg-amethyst-900/40 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 shadow-sm backdrop-blur-sm flex items-start gap-5 transition-colors">
+                        <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 rounded-xl flex items-center justify-center text-amethyst-900 dark:text-amethyst-400 shrink-0">
                             <i data-lucide="clock" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider mb-2">Clinic Hours</p>
+                            <p class="text-xs text-slate-500 dark:text-amethyst-500 font-semibold uppercase tracking-wider mb-2">Clinic Hours</p>
                             <div class="space-y-1 text-sm">
                                 <div class="flex justify-between gap-8">
-                                    <span class="text-slate-600">Monday – Friday</span>
-                                    <span class="font-semibold text-slate-900">9:00 – 17:30</span>
+                                    <span class="text-slate-600 dark:text-amethyst-300">Monday – Friday</span>
+                                    <span class="font-semibold text-slate-900 dark:text-white">9:00 – 17:30</span>
                                 </div>
                                 <div class="flex justify-between gap-8">
-                                    <span class="text-slate-600">Saturday</span>
-                                    <span class="font-semibold text-slate-900">9:00 – 16:00</span>
+                                    <span class="text-slate-600 dark:text-amethyst-300">Saturday</span>
+                                    <span class="font-semibold text-slate-900 dark:text-white">9:00 – 16:00</span>
                                 </div>
                                 <div class="flex justify-between gap-8">
-                                    <span class="text-slate-600">Sunday</span>
-                                    <span class="font-semibold text-slate-500">Closed</span>
+                                    <span class="text-slate-600 dark:text-amethyst-300">Sunday</span>
+                                    <span class="font-semibold text-slate-500 dark:text-amethyst-500">Closed</span>
                                 </div>
                             </div>
                         </div>
@@ -621,11 +669,11 @@
 
                 <div class="grid grid-cols-2 gap-x-12 gap-y-3 text-sm">
                     <a href="#services" class="text-amethyst-300 hover:text-white transition-colors">Services</a>
-                    <a href="#contact" class="text-amethyst-300 hover:text-white transition-colors">Book Now</a>
-                    <a href="#why-us" class="text-amethyst-300 hover:text-white transition-colors">Why Amethyst</a>
+                    <a href="#contact"  class="text-amethyst-300 hover:text-white transition-colors">Book Now</a>
+                    <a href="#why-us"   class="text-amethyst-300 hover:text-white transition-colors">Why Amethyst</a>
                     <a href="tel:01427617211" class="text-amethyst-300 hover:text-white transition-colors">01427 617211</a>
-                    <a href="#team" class="text-amethyst-300 hover:text-white transition-colors">Our Team</a>
-                    <a href="#gallery" class="text-amethyst-300 hover:text-white transition-colors">Gallery</a>
+                    <a href="#team"     class="text-amethyst-300 hover:text-white transition-colors">Our Team</a>
+                    <a href="#gallery"  class="text-amethyst-300 hover:text-white transition-colors">Gallery</a>
                 </div>
 
             </div>
@@ -646,16 +694,19 @@
          SCRIPTS
     ════════════════════════════════════════ -->
     <script>
-        // Init Lucide icons
         lucide.createIcons();
 
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('open');
+        // ── Dark mode ──
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('amethyst-theme', isDark ? 'dark' : 'light');
         }
 
-        // Close menu when clicking outside
+        // ── Mobile menu ──
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
         document.addEventListener('click', function(e) {
             const menu   = document.getElementById('mobile-menu');
             const burger = document.getElementById('hamburger');
@@ -664,7 +715,7 @@
             }
         });
 
-        // Intersection Observer for fade-in-up animations
+        // ── Scroll-triggered fade-in ──
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -675,7 +726,6 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-in-up').forEach(el => {
-            // Only set initial state if not already visible (hero elements)
             if (!el.closest('header')) {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(24px)';
