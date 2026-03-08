@@ -133,6 +133,23 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
     </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NailSalon",
+      "name": "Amethyst Nails & Beauty",
+      "url": "https://amethystnails.co.uk",
+      "telephone": "01427617211",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "98 Trinity Street",
+        "addressLocality": "Gainsborough",
+        "postalCode": "DN21 1HS",
+        "addressCountry": "GB"
+      }
+    }
+    </script>
 </head>
 
 <!-- Body bg controlled by CSS above; text and selection adapt -->
@@ -209,15 +226,14 @@
     <header class="hero max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div class="max-w-3xl">
 
-            <div class="inline-flex items-center gap-2 bg-amethyst-100 dark:bg-amethyst-900/60 text-amethyst-900 dark:text-amethyst-300 text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-8 fade-in-up border border-transparent dark:border-amethyst-700">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
-                Trinity, Gainsborough
-            </div>
-
-            <h1 class="font-serif text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 fade-in-up delay-100 leading-none">
-                Expert Artistry.<br>
-                <span class="text-amethyst-900 dark:text-amethyst-400">Clean Chemistry.</span>
+            <h1 class="font-serif text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-4 fade-in-up delay-100 leading-none">
+                Professional Nails &amp; Beauty<br>
+                <span class="text-amethyst-900 dark:text-amethyst-400">in Gainsborough</span>
             </h1>
+
+            <p class="text-slate-500 dark:text-amethyst-400 text-base font-semibold tracking-wide mb-6 fade-in-up delay-100">
+                BIAB &bull; Builder Gel &bull; Gel Polish &bull; Nail Art
+            </p>
 
             <!-- AEO-ready answer block -->
             <div class="bg-white/70 dark:bg-amethyst-900/40 border-l-4 border-amethyst-900 dark:border-amethyst-500 p-6 rounded-r-2xl mb-8 shadow-sm backdrop-blur-sm fade-in-up delay-200">
@@ -226,8 +242,12 @@
                 </p>
             </div>
 
-            <p class="text-slate-600 dark:text-amethyst-300 text-xl mb-10 fade-in-up delay-300">
+            <p class="text-slate-600 dark:text-amethyst-300 text-xl mb-6 fade-in-up delay-300">
                 Stop paying for damage. Invest in scientific efficacy and immaculate design.
+            </p>
+
+            <p class="text-slate-500 dark:text-amethyst-400 text-sm font-medium mb-10 fade-in-up delay-300">
+                Fully Qualified &bull; Private Studio &bull; Professional Products
             </p>
 
             <div class="flex flex-wrap gap-4 fade-in-up delay-400">
@@ -243,6 +263,62 @@
             </div>
         </div>
     </header>
+
+
+    <!-- ════════════════════════════════════════
+         SERVICE STRIP + TRUST SIGNALS
+    ════════════════════════════════════════ -->
+    <section class="border-y border-slate-100 dark:border-amethyst-900 bg-white/60 dark:bg-amethyst-950/70 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+            <!-- Task 4: Service strip -->
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-semibold text-slate-600 dark:text-amethyst-300 mb-4">
+                <span>BIAB Nails</span>
+                <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
+                <span>Builder Gel</span>
+                <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
+                <span>Gel Polish</span>
+                <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
+                <span>Nail Art</span>
+                <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
+                <span>Nail Repairs</span>
+            </div>
+
+            <!-- Task 5: Review proof line -->
+            <p class="text-center text-sm text-slate-500 dark:text-amethyst-400">
+                &#11088; Rated 5&#9733; by local clients in Gainsborough
+            </p>
+
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
+         OPENING HOURS
+    ════════════════════════════════════════ -->
+    <!-- Task 6: Opening hours -->
+    <section class="py-10 transition-colors">
+        <div class="max-w-xs mx-auto px-4 text-center">
+            <h2 class="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-6">Opening Hours</h2>
+            <div class="space-y-3 text-sm text-slate-600 dark:text-amethyst-300">
+                <div>
+                    <p class="font-semibold text-slate-800 dark:text-white">Monday – Friday</p>
+                    <p>By appointment</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-slate-800 dark:text-white">Saturday</p>
+                    <p>Limited appointments</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-slate-800 dark:text-white">Sunday</p>
+                    <p class="text-slate-400 dark:text-amethyst-500">Closed</p>
+                </div>
+            </div>
+            <p class="mt-5 text-xs text-slate-400 dark:text-amethyst-500">
+                Nail studio in Gainsborough — book via WhatsApp for the fastest response.
+            </p>
+        </div>
+    </section>
 
 
     <!-- ════════════════════════════════════════
