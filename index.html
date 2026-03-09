@@ -132,6 +132,19 @@
         #gallery .absolute p {
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
+
+        /* ── Mobile-first flex for #vouchers and #testimonials ── */
+        .vouchers-inner,
+        .testimonials-grid {
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 768px) {
+            .vouchers-inner,
+            .testimonials-grid {
+                flex-direction: row;
+            }
+        }
     </style>
 
     <script type="application/ld+json">
@@ -177,7 +190,9 @@
                     <a href="#why-us"   class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Why Us</a>
                     <a href="#team"     class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Our Team</a>
                     <a href="#gallery"  class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Gallery</a>
-                    <a href="#prices"   class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Prices</a>
+                    <a href="#prices"        class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Prices</a>
+                    <a href="#testimonials" class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Reviews</a>
+                    <a href="#vouchers"     class="text-sm font-medium text-slate-600 dark:text-amethyst-300 hover:text-amethyst-900 dark:hover:text-white transition-colors">Gift Vouchers</a>
 
                     <!-- Dark mode toggle -->
                     <button onclick="toggleDarkMode()" aria-label="Toggle dark mode"
@@ -213,7 +228,9 @@
                 <a href="#why-us"   onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Why Us</a>
                 <a href="#team"     onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Our Team</a>
                 <a href="#gallery"  onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Gallery</a>
-                <a href="#prices"   onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Prices</a>
+                <a href="#prices"        onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Prices</a>
+                <a href="#testimonials" onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Reviews</a>
+                <a href="#vouchers"     onclick="toggleMobileMenu()" class="py-3 px-4 text-slate-700 dark:text-amethyst-200 font-medium rounded-lg hover:bg-amethyst-50 dark:hover:bg-amethyst-900 hover:text-amethyst-900 dark:hover:text-white transition-colors">Gift Vouchers</a>
                 <a href="#contact"  onclick="toggleMobileMenu()" class="mt-2 py-3 px-4 bg-amethyst-900 dark:bg-amethyst-700 text-white font-semibold rounded-xl text-center hover:bg-amethyst-800 dark:hover:bg-amethyst-600 transition-colors">Book an Appointment</a>
             </div>
         </div>
@@ -621,7 +638,7 @@
                     <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white mb-1">Roz</h3>
                     <p class="text-amethyst-900 dark:text-amethyst-400 font-semibold text-sm mb-3">Owner & Head Nail Technician</p>
                     <p class="text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
-                        Roz founded Amethyst with a clear mission: offer Gainsborough genuinely excellent nail care, not just quick, cheap appointments. She leads on BIAB, gel enhancements, and bespoke nail art.
+                        Founder of Amethyst in 1995, Roz built the salon with a clear mission: offer Gainsborough genuinely excellent nail care, not just quick, cheap appointments. Celebrating 30 years of professional expertise in Gainsborough, she leads on BIAB, gel enhancements, and bespoke nail art.
                     </p>
                 </div>
 
@@ -1009,6 +1026,76 @@
 
 
     <!-- ════════════════════════════════════════
+         TESTIMONIALS
+    ════════════════════════════════════════ -->
+    <section id="testimonials" class="py-24 bg-white/60 dark:bg-amethyst-950/70 backdrop-blur-sm border-y border-slate-100 dark:border-amethyst-900 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">What Clients Say</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg">Real experiences from clients who keep coming back.</p>
+            </div>
+
+            <div class="testimonials-grid gap-8">
+
+                <!-- Sarah M. -->
+                <div class="flex-1 bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-8 shadow-sm backdrop-blur-sm">
+                    <div class="flex items-center gap-0.5 mb-5 text-amber-400 text-xl" aria-label="5 stars">
+                        ★★★★★
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-amethyst-200 text-base leading-relaxed mb-6 italic">
+                        "Every visit feels like a little reset — I leave with perfect nails and genuinely feel looked after. The attention to detail here is unlike anywhere else I've been."
+                    </blockquote>
+                    <p class="font-bold text-slate-900 dark:text-white text-sm">Sarah M.</p>
+                    <p class="text-amethyst-700 dark:text-amethyst-400 text-xs mt-0.5">Gainsborough</p>
+                </div>
+
+                <!-- Alexandra Streatfield -->
+                <div class="flex-1 bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-8 shadow-sm backdrop-blur-sm">
+                    <div class="flex items-center gap-0.5 mb-5 text-amber-400 text-xl" aria-label="5 stars">
+                        ★★★★★
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-amethyst-200 text-base leading-relaxed mb-6 italic">
+                        "Wonderful job — the team really takes the time to understand what you want and delivers every single time. Wouldn't go anywhere else in Gainsborough."
+                    </blockquote>
+                    <p class="font-bold text-slate-900 dark:text-white text-sm">Alexandra Streatfield</p>
+                    <p class="text-amethyst-700 dark:text-amethyst-400 text-xs mt-0.5">Gainsborough</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
+         GIFT VOUCHERS
+    ════════════════════════════════════════ -->
+    <section id="vouchers" class="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="vouchers-inner items-center gap-10 bg-amethyst-50 dark:bg-amethyst-950/60 border border-amethyst-200 dark:border-amethyst-800 rounded-3xl p-10 md:p-14">
+
+            <div class="flex-shrink-0 flex justify-center">
+                <div class="w-20 h-20 rounded-full bg-amethyst-100 dark:bg-amethyst-900 flex items-center justify-center text-amethyst-900 dark:text-amethyst-400">
+                    <i data-lucide="gift" class="w-10 h-10"></i>
+                </div>
+            </div>
+
+            <div class="text-center md:text-left">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">The Perfect Gift</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg mb-6">
+                    Vouchers available for <strong class="text-slate-900 dark:text-white">Valentine's Day</strong>, <strong class="text-slate-900 dark:text-white">Mother's Day</strong>, and <strong class="text-slate-900 dark:text-white">Christmas</strong>.
+                </p>
+                <a href="tel:01427617211"
+                    class="inline-flex items-center gap-2 bg-amethyst-900 hover:bg-amethyst-800 dark:bg-amethyst-700 dark:hover:bg-amethyst-600 text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                    Call 01427&nbsp;617211 to order
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
          CONTACT & BOOKING
     ════════════════════════════════════════ -->
     <section id="contact" class="py-24 transition-colors">
@@ -1126,6 +1213,11 @@
                 <p class="text-amethyst-600 text-xs">
                     All technicians are fully qualified and insured. HEMA-free products used throughout.
                 </p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-amethyst-900/50 flex justify-center">
+                <span class="inline-block bg-amethyst-900/50 border border-amethyst-700 text-amethyst-300 text-xs font-medium px-4 py-2 rounded-full tracking-wide">
+                    Proud members of the Federation of Nail Professionals
+                </span>
             </div>
         </div>
     </footer>
