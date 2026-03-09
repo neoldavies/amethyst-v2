@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amethyst Glow - Beauty Puzzle</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Amethyst Glow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --amethyst: #6a1b9a;
@@ -13,6 +13,7 @@
             --text: #f5f5f5;
             --danger: #ff4d4d;
         }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Lato', sans-serif;
             background-color: var(--dark-bg);
@@ -21,202 +22,166 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100dvh;
+            width: 100vw;
             overflow: hidden;
         }
         #game-container {
-            width: 90%;
+            width: 92vw;
             max-width: 400px;
+            height: 92dvh;
+            max-height: 700px;
             background: #25162b;
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
             border: 1px solid var(--gold);
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            text-align: center;
-            position: relative;
-            min-height: 520px;
             display: flex;
             flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
-        .utility-bar {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        .icon-btn {
-            background: none;
-            border: none;
-            color: var(--gold);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 5px;
-            opacity: 0.7;
-            transition: 0.3s;
-        }
-        .icon-btn:hover, .icon-btn.active { opacity: 1; transform: scale(1.1); }
-        h1 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            margin: 0 0 10px 0;
-            font-size: 1.6rem;
-            letter-spacing: 2px;
-        }
+        /* Fixed Header Area */
+        .header { flex-shrink: 0; margin-bottom: 10px; }
+        .utility-bar { display: flex; justify-content: flex-end; gap: 15px; margin-bottom: 5px; }
+        .icon-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 1.1rem; }
+
+        h1 { font-family: 'Playfair Display', serif; color: var(--gold); margin: 0; font-size: 1.4rem; letter-spacing: 1px; }
         .stats-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: var(--gold);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin: 8px 0; font-size: 0.7rem; text-transform: uppercase; color: var(--gold);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 8px;
         }
-        #grid-wrapper { perspective: 1000px; }
+        /* --- THE GRID Safe Zone --- */
+        #grid-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 0; /* Prevents container from growing past flex-parent */
+            width: 100%;
+            padding: 10px 0;
+        }
         #grid {
             display: grid;
-            gap: 10px;
-            margin: 0 auto;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            gap: 8px;
             width: 100%;
+            max-height: 100%; /* Important: Limits grid height to the container */
+            aspect-ratio: 1 / 1; /* Keeps the whole grid square */
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            margin: auto;
         }
         .card {
-            aspect-ratio: 1/1;
             background: linear-gradient(145deg, #3a2244, #25162b);
             border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
             cursor: pointer;
-            transition: 0.3s;
+            position: relative;
             transform-style: preserve-3d;
-            word-break: break-all;
-            padding: 5px;
+            transition: 0.3s;
+            width: 100%;
+            height: 100%;
         }
+        .card span {
+            display: none; font-size: 1.8rem;
+            transition: transform 0.8s; pointer-events: none; text-align: center;
+        }
+        .text-card span { font-size: 0.7rem; font-weight: bold; line-height: 1; }
         .card.flipped { background: var(--amethyst); border-color: var(--gold); transform: rotateY(180deg); }
-        .card.matched { opacity: 0; transform: scale(0.5); pointer-events: none; }
-        .card span { display: none; pointer-events: none; transition: transform 0.8s; text-align: center;}
         .card.flipped span { display: block; transform: rotateY(-180deg); }
-        .card.text-card span {
-            font-size: 0.75rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
+        .card.matched { opacity: 0; transform: scale(0.5); pointer-events: none; }
+        /* --- ROTATION MODES --- */
         #grid.rotated { transform: rotate(180deg); }
-        #grid.rotated.smart-orient .card span { transform: rotateY(-180deg) rotateZ(180deg); }
-        #grid.rotated.full-invert .card span { transform: rotateY(-180deg) rotateZ(0deg); }
-        body.high-contrast .card.flipped {
-            background: white !important;
-            color: black !important;
-            border: 3px solid black;
-        }
-        body.high-contrast .card span { font-size: 0.7rem !important; }
-        #timer { font-weight: bold; width: 50px; display: inline-block; }
-        .timer-warning { color: var(--danger) !important; animation: danger-pulse 0.6s infinite alternate; }
-        @keyframes danger-pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        #grid.rotated.smart-orient span { transform: rotateY(-180deg) rotateZ(180deg); }
+        #grid.rotated.full-invert span { transform: rotateY(-180deg) rotateZ(0deg); }
+        /* --- UI OVERLAY --- */
         .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(26, 15, 31, 0.98);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 14px;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; border-radius: 14px; padding: 20px; text-align: center;
         }
-        .overlay button {
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 12px 30px;
-            font-family: 'Playfair Display', serif;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-top: 15px;
+        button.main-btn {
+            background: transparent; color: var(--gold); border: 1px solid var(--gold);
+            padding: 12px 30px; font-family: 'Playfair Display', serif;
+            font-size: 1rem; cursor: pointer; border-radius: 4px; margin-top: 15px;
         }
-        .hint { font-size: 0.65rem; color: rgba(255,255,255,0.3); margin-top: auto; padding-top: 10px; }
+        #timer { font-weight: bold; min-width: 40px; display: inline-block; }
+        .timer-warning { color: var(--danger); text-shadow: 0 0 10px var(--danger); }
+
+        .footer-area { flex-shrink: 0; height: 30px; display: flex; align-items: center; justify-content: center; }
+        .hint { font-size: 0.6rem; color: rgba(255,255,255,0.3); margin: 0; }
+
+        body.high-contrast .card.flipped { background: #fff !important; color: #000 !important; }
     </style>
 </head>
 <body>
 <div id="game-container">
-    <div class="utility-bar">
-        <button id="btn-a11y" class="icon-btn" title="Toggle Accessibility" onclick="toggleA11y()">👁️</button>
-        <button id="btn-mute" class="icon-btn" title="Toggle Sound" onclick="toggleMute()">🔊</button>
-        <button id="btn-pause" class="icon-btn" title="Pause Game" onclick="togglePause()">⏸️</button>
-    </div>
-    <div class="stats-bar">
-        <div>Lvl <span id="level-val">1</span></div>
-        <div style="font-weight: bold;">SCORE: <span id="score-val">0</span></div>
-        <div><span id="timer">10.5</span>s</div>
-    </div>
+    <div class="header">
+        <div class="utility-bar">
+            <button class="icon-btn" onclick="toggleA11y()">👁️</button>
+            <button id="btn-mute" class="icon-btn" onclick="toggleMute()">🔊</button>
+            <button class="icon-btn" onclick="togglePause()">⏸️</button>
+        </div>
+        <div class="stats-bar">
+            <div>LVL <span id="level-val">1</span></div>
+            <div style="font-weight:700">SCORE: <span id="score-val">0</span></div>
+            <div><span id="timer">10.5</span>S</div>
+        </div>
 
-    <h1>Amethyst Glow</h1>
-    <div id="grid-wrapper">
+        <h1>Amethyst Glow</h1>
+    </div>
+    <div id="grid-container">
         <div id="grid"></div>
     </div>
-    <div id="overlay" class="overlay">
-        <h2 id="overlay-title" style="color: var(--gold); font-family: 'Playfair Display';"></h2>
-        <p id="overlay-msg"></p>
-        <div id="bonus-info" style="color: #4dff88; font-weight: bold;"></div>
-        <button id="action-btn" onclick="initAndStart()">Begin Level</button>
+    <div class="footer-area">
+        <p class="hint" id="level-hint"></p>
     </div>
-    <p class="hint" id="level-hint"></p>
+    <div id="overlay" class="overlay">
+        <h2 id="overlay-title" style="color:var(--gold); font-family:'Playfair Display'; margin:0"></h2>
+        <p id="overlay-msg" style="margin:10px 0"></p>
+        <div id="bonus-info" style="color:#4dff88; font-weight:bold; font-size:0.8rem"></div>
+        <button class="main-btn" onclick="initAndStart()">Begin</button>
+    </div>
 </div>
 <script>
-    const beautyData = [
+    const data = [
         {e: '✨', t: 'GLOW'}, {e: '💎', t: 'GEMS'}, {e: '💄', t: 'LIPS'},
         {e: '🧴', t: 'LOTION'}, {e: '🧖‍♀️', t: 'SPA'}, {e: '✂️', t: 'CUT'},
         {e: '💅', t: 'NAILS'}, {e: '💆‍♀️', t: 'RELAX'}, {e: '🎨', t: 'ART'}, {e: '🪞', t: 'MIRROR'}
     ];
     let level = 1, score = 0, timeLeft = 10.5, timerInterval, audioCtx = null;
     let flippedCards = [], matchedPairs = 0, isProcessing = false, isPaused = false;
-    let seenIcons = new Set(), errorsInLevel = 0, isUpsideDown = false;
+    let seen = new Set(), errors = 0, isUpsideDown = false;
     let isMuted = false, isA11y = false;
     window.onload = () => {
-        const saved = JSON.parse(localStorage.getItem('amethyst_glow_v4'));
-        if (saved) {
-            level = saved.level || 1;
-            score = saved.score || 0;
-            isMuted = saved.muted || false;
-            isA11y = saved.a11y || false;
-            document.getElementById('score-val').innerText = score;
-            applySettings();
-        }
-        document.getElementById('overlay').style.display = 'flex';
-        document.getElementById('overlay-title').innerText = "Amethyst Glow";
-        document.getElementById('overlay-msg').innerText = "A test of memory and focus.";
+        const saved = JSON.parse(localStorage.getItem('amethyst_glow_v6'));
+        if (saved) { level = saved.level || 1; score = saved.score || 0; isMuted = saved.muted || false; isA11y = saved.a11y || false; }
+        document.getElementById('score-val').innerText = score;
+        updateMuteUI();
+        showOverlay("Amethyst Glow", "Ready for your session?", "Start Game");
     };
-    function saveState() {
-        localStorage.setItem('amethyst_glow_v4', JSON.stringify({ level, score, muted: isMuted, a11y: isA11y }));
+    function showOverlay(title, msg, btnText) {
+        document.getElementById('overlay-title').innerText = title;
+        document.getElementById('overlay-msg').innerText = msg;
+        document.querySelector('#overlay button').innerText = btnText;
+        document.getElementById('overlay').style.display = 'flex';
     }
-    function applySettings() {
-        document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊';
-        document.getElementById('btn-a11y').classList.toggle('active', isA11y);
-        document.body.classList.toggle('high-contrast', isA11y);
-    }
-    function toggleMute() { isMuted = !isMuted; applySettings(); saveState(); }
-    function toggleA11y() { isA11y = !isA11y; applySettings(); saveState(); initGrid(); }
-
+    function toggleMute() { isMuted = !isMuted; updateMuteUI(); save(); }
+    function updateMuteUI() { document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊'; }
+    function toggleA11y() { isA11y = !isA11y; document.body.classList.toggle('high-contrast', isA11y); save(); initGrid(); }
+    function save() { localStorage.setItem('amethyst_glow_v6', JSON.stringify({level, score, muted: isMuted, a11y: isA11y})); }
     function togglePause() {
-        if (matchedPairs === (document.querySelectorAll('.card').length / 2) || timeLeft <= 0) return;
+        if (timeLeft <= 0) return;
         isPaused = !isPaused;
-        const grid = document.getElementById('grid');
         if (isPaused) {
             clearInterval(timerInterval);
-            grid.style.visibility = 'hidden';
-            document.getElementById('overlay').style.display = 'flex';
-            document.getElementById('overlay-title').innerText = "Paused";
-            document.getElementById('overlay-msg').innerText = "Take a breath.";
-            document.getElementById('action-btn').innerText = "Resume";
-            document.getElementById('action-btn').onclick = togglePause;
+            document.getElementById('grid').style.visibility = 'hidden';
+            showOverlay("Paused", "Your progress is safe.", "Resume");
         } else {
-            grid.style.visibility = 'visible';
+            document.getElementById('grid').style.visibility = 'visible';
             document.getElementById('overlay').style.display = 'none';
             runTimer();
         }
@@ -228,20 +193,14 @@
         const gain = audioCtx.createGain();
         osc.connect(gain); gain.connect(audioCtx.destination);
         if (type === 'thump') {
-            osc.frequency.setValueAtTime(120, now);
-            osc.frequency.exponentialRampToValueAtTime(0.01, now + 0.1);
-            gain.gain.setValueAtTime(0.2, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-            osc.start(); osc.stop(now + 0.1);
+            osc.frequency.setValueAtTime(120, now); osc.frequency.exponentialRampToValueAtTime(0.01, now + 0.1);
+            gain.gain.setValueAtTime(0.1, now); osc.start(); osc.stop(now + 0.1);
+        } else if (type === 'win') {
+            osc.frequency.setValueAtTime(523, now); osc.frequency.exponentialRampToValueAtTime(1046, now + 0.3);
+            gain.gain.setValueAtTime(0.1, now); osc.start(); osc.stop(now + 0.4);
         } else if (type === 'lose') {
             osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, now);
-            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.5);
-            osc.start(); osc.stop(now + 0.5);
-        } else if (type === 'win') {
-            osc.type = 'sine'; osc.frequency.setValueAtTime(523, now);
-            osc.frequency.exponentialRampToValueAtTime(1046, now + 0.3);
-            gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-            osc.start(); osc.stop(now + 0.4);
+            gain.gain.setValueAtTime(0.1, now); osc.start(); osc.stop(now + 0.5);
         }
     }
     function initAndStart() {
@@ -251,21 +210,17 @@
     }
     function startLevel() {
         document.getElementById('overlay').style.display = 'none';
-        isPaused = false; matchedPairs = 0; flippedCards = [];
-        seenIcons.clear(); errorsInLevel = 0; isUpsideDown = false;
+        document.getElementById('bonus-info').innerText = "";
+        isPaused = false; matchedPairs = 0; flippedCards = []; seen.clear(); errors = 0; isUpsideDown = false;
 
         const grid = document.getElementById('grid');
         grid.classList.remove('rotated', 'smart-orient', 'full-invert');
-
+        grid.style.transform = 'rotate(0deg)';
         timeLeft = parseFloat(((10 + (level - 1) * 5) * 1.05).toFixed(1));
         document.getElementById('level-val').innerText = level;
         document.getElementById('score-val').innerText = score;
 
         initGrid();
-
-        let modeHint = level < 5 ? "Match the Icons" : (level < 10 ? "Word or Icon Round!" : "HYBRID MODE: Match Icon to Word");
-        document.getElementById('level-hint').innerText = `Lvl ${level}: ${modeHint}`;
-
         runTimer();
     }
     function initGrid() {
@@ -274,52 +229,45 @@
         grid.style.visibility = 'visible';
 
         let pairsCount = Math.min(2 + level, 10);
-        let cols = (level < 3) ? 2 : 4;
+        let cols = (level < 3) ? 2 : (level < 6 ? 3 : 4);
         grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-        let currentSet = beautyData.slice(0, pairsCount);
-        let cardData = [];
-        let roundType = "icon";
-        if (level >= 5 && level < 10) {
-            roundType = Math.random() > 0.5 ? "text" : "icon";
-        } else if (level >= 10) {
-            roundType = "hybrid";
-        }
-        if (isA11y) roundType = "text";
+        let type = "icon";
+        if (level >= 5 && level < 10) type = Math.random() > 0.5 ? "text" : "icon";
+        else if (level >= 10) type = "hybrid";
+        if (isA11y) type = "text";
+        let currentSet = data.slice(0, pairsCount);
+        let cards = [];
         currentSet.forEach(item => {
-            if (roundType === "hybrid") {
-                cardData.push({ id: item.e, display: item.e, type: 'icon' });
-                cardData.push({ id: item.e, display: item.t, type: 'text' });
-            } else if (roundType === "text") {
-                cardData.push({ id: item.e, display: item.t, type: 'text' });
-                cardData.push({ id: item.e, display: item.t, type: 'text' });
+            if (type === "hybrid") {
+                cards.push({ id: item.e, val: item.e, isText: false });
+                cards.push({ id: item.e, val: item.t, isText: true });
+            } else if (type === "text") {
+                cards.push({ id: item.e, val: item.t, isText: true }, { id: item.e, val: item.t, isText: true });
             } else {
-                cardData.push({ id: item.e, display: item.e, type: 'icon' });
-                cardData.push({ id: item.e, display: item.e, type: 'icon' });
+                cards.push({ id: item.e, val: item.e, isText: false }, { id: item.e, val: item.e, isText: false });
             }
         });
-        cardData.sort(() => Math.random() - 0.5);
-        cardData.forEach(data => {
+        cards.sort(() => Math.random() - 0.5).forEach(c => {
             const card = document.createElement('div');
-            card.className = 'card';
-            if (data.type === 'text') card.classList.add('text-card');
-            card.dataset.id = data.id;
-            card.innerHTML = `<span>${data.display}</span>`;
+            card.className = 'card' + (c.isText ? ' text-card' : '');
+            card.dataset.id = c.id;
+            card.innerHTML = `<span>${c.val}</span>`;
             card.onclick = () => handleCardClick(card);
             grid.appendChild(card);
         });
+        document.getElementById('level-hint').innerText = `Lvl ${level}: ${type.toUpperCase()}`;
     }
     function runTimer() {
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
-            let prevSec = Math.floor(timeLeft);
+            let prev = Math.floor(timeLeft);
             timeLeft = parseFloat((timeLeft - 0.1).toFixed(1));
-            let currSec = Math.floor(timeLeft);
-            if (timeLeft <= 3.1 && timeLeft > 0 && currSec !== prevSec) playSound('thump');
-            updateTimerDisplay();
-            if (timeLeft <= 0) gameOver();
+            if (timeLeft <= 3 && timeLeft > 0 && Math.floor(timeLeft) !== prev) playSound('thump');
+            updateUI();
+            if (timeLeft <= 0) { playSound('lose'); gameOver(); }
         }, 100);
     }
-    function updateTimerDisplay() {
+    function updateUI() {
         const el = document.getElementById('timer');
         el.innerText = timeLeft <= 0 ? "0.0" : timeLeft.toFixed(1);
         el.classList.toggle('timer-warning', (timeLeft <= 5 && timeLeft > 0));
@@ -336,55 +284,41 @@
         if (c1.dataset.id === c2.dataset.id) {
             matchedPairs++; score += 2;
             timeLeft = Math.min(timeLeft + Math.min(level, 5), 60);
-
             setTimeout(() => {
                 c1.classList.add('matched'); c2.classList.add('matched');
                 if (level >= 5) {
                     isUpsideDown = !isUpsideDown;
-                    const grid = document.getElementById('grid');
-                    grid.classList.toggle('rotated', isUpsideDown);
-                    if (level >= 5 && level <= 7) grid.classList.add('smart-orient');
-                    else if (level >= 8) grid.classList.add('full-invert');
+                    const g = document.getElementById('grid');
+                    g.classList.toggle('rotated', isUpsideDown);
+                    g.classList.toggle('smart-orient', level < 8);
+                    g.classList.toggle('full-invert', level >= 8);
                 }
                 flippedCards = []; isProcessing = false;
-                if (matchedPairs === document.querySelectorAll('.card').length / 2) triggerVictory();
+                if (matchedPairs === (document.querySelectorAll('.card').length / 2)) triggerWin();
             }, 500);
         } else {
-            if (seenIcons.has(c1.dataset.id) || seenIcons.has(c2.dataset.id)) {
-                errorsInLevel++; score = Math.max(0, score - 1);
+            if (seen.has(c1.dataset.id) || seen.has(c2.dataset.id)) {
+                errors++; score = Math.max(0, score - 1);
                 if (level >= 5) timeLeft = Math.max(0, timeLeft - 1);
             }
-            seenIcons.add(c1.dataset.id); seenIcons.add(c2.dataset.id);
-            setTimeout(() => {
-                c1.classList.remove('flipped'); c2.classList.remove('flipped');
-                flippedCards = []; isProcessing = false;
-            }, 800);
+            seen.add(c1.dataset.id); seen.add(c2.dataset.id);
+            setTimeout(() => { c1.classList.remove('flipped'); c2.classList.remove('flipped'); flippedCards = []; isProcessing = false; }, 800);
         }
         document.getElementById('score-val').innerText = score;
     }
-    function triggerVictory() {
+    function triggerWin() {
         clearInterval(timerInterval);
-        const flawless = (errorsInLevel === 0);
-        score += flawless ? 30 : 10;
-        level++;
-        saveState();
-        playSound('win');
+        let bonus = (errors === 0) ? 30 : 10;
+        score += bonus; level++; save(); playSound('win');
         setTimeout(() => {
-            document.getElementById('overlay').style.display = 'flex';
-            document.getElementById('overlay-title').innerText = "Radiant Finish!";
-            document.getElementById('overlay-msg').innerText = flawless ? "Perfect Round! +30 pts" : "Level Complete! +10 pts";
-            document.getElementById('action-btn').innerText = `Begin Level ${level}`;
-            document.getElementById('action-btn').onclick = initAndStart;
+            document.getElementById('bonus-info').innerText = (errors === 0) ? "PERFECT! +30" : "+10 Points";
+            showOverlay("Level Complete!", `Score: ${score}`, `Begin Level ${level}`);
         }, 1000);
     }
     function gameOver() {
         clearInterval(timerInterval);
-        playSound('lose');
-        document.getElementById('overlay').style.display = 'flex';
-        document.getElementById('overlay-title').innerText = "Time Refresh";
-        document.getElementById('overlay-msg').innerText = `Final Score: ${score}. Try again?`;
-        document.getElementById('action-btn').innerText = "Restart Game";
-        document.getElementById('action-btn').onclick = () => { level = 1; score = 0; saveState(); startLevel(); };
+        showOverlay("Time Expired", `Final Score: ${score}`, "Restart Game");
+        document.querySelector('#overlay button').onclick = () => { level = 1; score = 0; save(); startLevel(); };
     }
 </script>
 </body>
