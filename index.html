@@ -86,35 +86,169 @@
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
 
-        /* ── Pricing tabs ── */
-        .price-tab {
-            background: transparent;
-            color: #64748b;
+        /* ── Slim sticky nav: shrink on scroll ── */
+        #main-nav .nav-inner {
+            height: 4rem;
+            transition: height 0.25s ease;
+        }
+        #main-nav.nav-shrunk .nav-inner {
+            height: 3rem;
+        }
+        #main-nav.nav-shrunk {
+            box-shadow: 0 2px 16px rgba(0,0,0,0.14);
+        }
+
+        /* ── Price accordions ── */
+        .price-accordion {
             border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            transition: border-color 0.2s ease;
         }
-        .price-tab:hover {
-            border-color: #7329ef;
-            color: #4f1da4;
+        .price-accordion:hover { border-color: #7329ef; }
+        html.dark .price-accordion {
+            border-color: #2d1a5e;
+            background: rgba(15,10,31,0.6);
         }
-        .price-tab.active-tab {
+        html.dark .price-accordion:hover { border-color: #7329ef; }
+        .price-accordion > summary {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f172a;
+            user-select: none;
+        }
+        html.dark .price-accordion > summary { color: #fff; }
+        .price-accordion > summary::-webkit-details-marker { display: none; }
+        .price-accordion > summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1;
+            color: #7329ef;
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+        .price-accordion[open] > summary::after { transform: rotate(45deg); }
+        .accordion-body {
+            padding: 0 1.5rem 1.25rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        html.dark .accordion-body { border-top-color: #2d1a5e; }
+
+        /* ── Comparison slider ── */
+        .slider-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            border-radius: 1rem;
+            overflow: hidden;
+            user-select: none;
+        }
+        .slider-wrap .img-base {
+            display: block;
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+        }
+        .slider-after {
+            position: absolute;
+            inset: 0;
+            clip-path: inset(0 50% 0 0);
+        }
+        .slider-after img {
+            display: block;
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+        }
+        .slider-divider {
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: #fff;
+            pointer-events: none;
+            box-shadow: 0 0 8px rgba(0,0,0,0.35);
+        }
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .slider-label {
+            position: absolute;
+            bottom: 14px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+        .slider-label.before { left: 14px; }
+        .slider-label.after  { right: 14px; }
+        input.slider-range {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: ew-resize;
+            margin: 0;
+        }
+        @media (max-width: 767px) {
+            .slider-wrap .img-base,
+            .slider-after img { height: 260px; }
+        }
+
+        /* ── Back-to-top button ── */
+        #back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 40;
+            width: 44px; height: 44px;
+            border-radius: 50%;
             background: #4f1da4;
             color: #fff;
-            border-color: #4f1da4;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(79,29,164,0.4);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+            pointer-events: none;
         }
-        html.dark .price-tab {
-            color: #b899ff;
-            border-color: #2d1a5e;
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
-        html.dark .price-tab:hover {
-            border-color: #7329ef;
-            color: #d9c7ff;
-        }
-        html.dark .price-tab.active-tab {
-            background: #7329ef;
-            color: #fff;
-            border-color: #7329ef;
-        }
-        .price-panel.hidden { display: none; }
+        #back-to-top:hover { background: #7329ef; }
 
         /* ── Dark mode toggle icon swap ── */
         .icon-moon { display: inline-block; }
@@ -172,9 +306,9 @@
     <!-- ════════════════════════════════════════
          NAVIGATION
     ════════════════════════════════════════ -->
-    <nav class="sticky top-0 z-50 bg-white/85 dark:bg-amethyst-950/90 backdrop-blur-md border-b border-slate-200 dark:border-amethyst-800 shadow-sm transition-colors">
+    <nav id="main-nav" class="sticky top-0 z-50 bg-white/85 dark:bg-amethyst-950/90 backdrop-blur-md border-b border-slate-200 dark:border-amethyst-800 shadow-sm transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="nav-inner flex justify-between items-center">
 
                 <!-- Logo -->
                 <a href="#" class="flex items-center gap-2 group">
@@ -672,6 +806,50 @@
 
 
     <!-- ════════════════════════════════════════
+         RESULTS SLIDER
+    ════════════════════════════════════════ -->
+    <section id="results" class="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Before &amp; After</h2>
+            <p class="text-slate-600 dark:text-amethyst-300 text-lg">Drag the slider to see the transformation. Every result is achieved using our HEMA-free, medical-grade process.</p>
+        </div>
+
+        <div class="slider-wrap" id="compare-slider">
+            <!-- Before image (base layer) -->
+            <img class="img-base"
+                src="https://images.pexels.com/photos/4113829/pexels-photo-4113829.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1400&h=840"
+                alt="Before nail treatment" loading="lazy">
+
+            <!-- After image (clipped overlay) -->
+            <div class="slider-after" id="slider-after">
+                <img src="https://images.pexels.com/photos/3997391/pexels-photo-3997391.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1400&h=840"
+                    alt="After nail treatment" loading="lazy">
+            </div>
+
+            <!-- Divider line + handle -->
+            <div class="slider-divider" id="slider-divider">
+                <div class="slider-handle">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                        <path d="M8 11H14M8 11L11 8M8 11L11 14M14 11L11 8M14 11L11 14" stroke="#7329ef" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Labels -->
+            <span class="slider-label before">Before</span>
+            <span class="slider-label after">After</span>
+
+            <!-- Invisible range input covers the whole area -->
+            <input type="range" class="slider-range" id="slider-range"
+                min="0" max="100" value="50"
+                aria-label="Before and after comparison — drag to reveal">
+        </div>
+
+    </section>
+
+
+    <!-- ════════════════════════════════════════
          PRICES
     ════════════════════════════════════════ -->
     <section id="prices" class="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -681,340 +859,154 @@
             <p class="text-slate-600 dark:text-amethyst-300 text-lg">No hidden costs. No up-selling. Every price below includes full preparation and premium HEMA-free products.</p>
         </div>
 
-        <!-- Tab buttons -->
-        <div class="flex flex-wrap justify-center gap-2 mb-10" role="tablist">
-            <button onclick="showPriceTab('nails')" id="tab-nails"
-                class="price-tab active-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
-                role="tab" aria-selected="true">
-                Nails
-            </button>
-            <button onclick="showPriceTab('lashes')" id="tab-lashes"
-                class="price-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
-                role="tab" aria-selected="false">
-                Lashes &amp; Brows
-            </button>
-            <button onclick="showPriceTab('skin')" id="tab-skin"
-                class="price-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
-                role="tab" aria-selected="false">
-                Skin &amp; Face
-            </button>
-            <button onclick="showPriceTab('body')" id="tab-body"
-                class="price-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
-                role="tab" aria-selected="false">
-                Body &amp; Wellness
-            </button>
-        </div>
+        <!-- Accordions -->
+        <div class="space-y-3">
 
-        <!-- Tab panels -->
-
-        <!-- NAILS -->
-        <div id="panel-nails" class="price-panel">
-            <div class="grid md:grid-cols-2 gap-6">
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Enhancements</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Nail Extensions <span class="text-xs text-slate-400 dark:text-amethyst-500">90 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£40</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Infills <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Natural Overlays <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">BIAB — Builder in a Bottle <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Removal <span class="text-xs text-slate-400 dark:text-amethyst-500">45–60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£22</span>
-                        </li>
-                    </ul>
+            <!-- NAILS -->
+            <details class="price-accordion" open>
+                <summary>Nails</summary>
+                <div class="accordion-body">
+                    <div class="grid md:grid-cols-2 gap-x-8 gap-y-6 pt-5">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Enhancements</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Nail Extensions <span class="text-xs text-slate-400 dark:text-amethyst-500">90 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£40</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Infills <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Natural Overlays <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">BIAB — Builder in a Bottle <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Removal <span class="text-xs text-slate-400 dark:text-amethyst-500">45–60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£22</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Manicures</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Gel Polish <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Spa Manicure <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Gel Manicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£30</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Paraffin Wax Manicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£30</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Shape &amp; Polish <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£15</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Pedicures</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Standard Pedicure <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£20</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Luxury Pedicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£27</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Gel Pedicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Extras</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Nail Art <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min+</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">POA</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Single Nail Repair <span class="text-xs text-slate-400 dark:text-amethyst-500">20 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£10</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </details>
 
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Manicures</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Gel Polish <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Spa Manicure <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Gel Manicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£30</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Paraffin Wax Manicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£30</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Shape &amp; Polish <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£15</span>
-                        </li>
-                    </ul>
+            <!-- LASHES & BROWS -->
+            <details class="price-accordion">
+                <summary>Lashes &amp; Brows</summary>
+                <div class="accordion-body">
+                    <div class="grid md:grid-cols-2 gap-x-8 gap-y-6 pt-5">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Lash Extensions</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Classic Lashes <span class="text-xs text-slate-400 dark:text-amethyst-500">90 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Hybrid Lashes <span class="text-xs text-slate-400 dark:text-amethyst-500">2 hr</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£45</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Russian Volume Lashes <span class="text-xs text-slate-400 dark:text-amethyst-500">up to 3 hr</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£55</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">2-Week Infill</span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">3-Week Infill</span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£26</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Eyelash Lift <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£27</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Brows &amp; Tinting</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Brow Lamination <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Henna Brows <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£34</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Eyebrow Shape <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£11</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Eyebrow Tint <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£11</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Eyelash Tint <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£13</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Lash &amp; Brow Tint <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£20</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </details>
 
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Pedicures</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Standard Pedicure <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£20</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Luxury Pedicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£27</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Gel Pedicure <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span>
-                        </li>
-                    </ul>
+            <!-- SKIN & FACE -->
+            <details class="price-accordion">
+                <summary>Skin &amp; Face</summary>
+                <div class="accordion-body">
+                    <div class="grid md:grid-cols-2 gap-x-8 gap-y-6 pt-5">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Advanced Skin Treatments</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Hydradermabrasion <span class="text-xs text-slate-400 dark:text-amethyst-500">1 hr</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£50</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Micro Needling <span class="text-xs text-slate-400 dark:text-amethyst-500">1 hr</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£60</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Microdermabrasion <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£32</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Dermaplaning <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Facials</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Pick Me Up Express <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Squeaky Clean Deep Cleansing</span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23 / £35</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Plump Me Up Hydrating</span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23 / £35</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Make Me Glow Anti-Ageing</span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23 / £35</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Aromatherapy Facial <span class="text-xs text-slate-400 dark:text-amethyst-500">75 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£45</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </details>
 
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Extras</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Nail Art <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min+</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">POA</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Single Nail Repair <span class="text-xs text-slate-400 dark:text-amethyst-500">20 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£10</span>
-                        </li>
-                    </ul>
+            <!-- BODY & WELLNESS -->
+            <details class="price-accordion">
+                <summary>Body &amp; Wellness</summary>
+                <div class="accordion-body">
+                    <div class="grid md:grid-cols-2 gap-x-8 gap-y-6 pt-5">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Massage</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Back Massage <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Aroma Back <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Hot Stones Back <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£26</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Full Body Massage <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£38</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Hot Stones Full Body <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£40</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Aroma Full Body <span class="text-xs text-slate-400 dark:text-amethyst-500">90 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£48</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Waxing</p>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Full Leg <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Half Leg <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£18</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Full Leg &amp; Bikini <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£33</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Half Leg &amp; Bikini <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Standard Bikini <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£15</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Underarm <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£13</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Upper Lip &amp; Chin <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£12</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Back &amp; Shoulder <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span></li>
+                            </ul>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-amethyst-700 dark:text-amethyst-400 mb-3">Holistic &amp; Other</p>
+                            <ul class="space-y-3 max-w-sm">
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Indian Head Massage <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£22</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Hopi Ear Candles <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£32</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Spray Tan <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£20</span></li>
+                                <li class="flex justify-between items-baseline gap-4"><span class="text-slate-700 dark:text-amethyst-200">Ear Piercing (both ears) <span class="text-xs text-slate-400 dark:text-amethyst-500">20 min</span></span><span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£40</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </details>
 
-            </div>
-        </div>
-
-        <!-- LASHES & BROWS -->
-        <div id="panel-lashes" class="price-panel hidden">
-            <div class="grid md:grid-cols-2 gap-6">
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Lash Extensions</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Classic Lashes <span class="text-xs text-slate-400 dark:text-amethyst-500">90 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Hybrid Lashes <span class="text-xs text-slate-400 dark:text-amethyst-500">2 hr</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£45</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Russian Volume Lashes <span class="text-xs text-slate-400 dark:text-amethyst-500">up to 3 hr</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£55</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">2-Week Infill</span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">3-Week Infill</span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£26</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Eyelash Lift <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£27</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Brows &amp; Tinting</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Brow Lamination <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Henna Brows <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£34</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Eyebrow Shape <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£11</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Eyebrow Tint <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£11</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Eyelash Tint <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£13</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Lash &amp; Brow Tint <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£20</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- SKIN & FACE -->
-        <div id="panel-skin" class="price-panel hidden">
-            <div class="grid md:grid-cols-2 gap-6">
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Advanced Skin Treatments</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Hydradermabrasion <span class="text-xs text-slate-400 dark:text-amethyst-500">1 hr</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£50</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Micro Needling <span class="text-xs text-slate-400 dark:text-amethyst-500">1 hr</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£60</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Microdermabrasion <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£32</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Dermaplaning <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£35</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Facials</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Pick Me Up Express <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Squeaky Clean Deep Cleansing</span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23 / £35</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Plump Me Up Hydrating</span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23 / £35</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Make Me Glow Anti-Ageing</span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23 / £35</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Aromatherapy Facial <span class="text-xs text-slate-400 dark:text-amethyst-500">75 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£45</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- BODY & WELLNESS -->
-        <div id="panel-body" class="price-panel hidden">
-            <div class="grid md:grid-cols-2 gap-6">
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Massage</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Back Massage <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£23</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Aroma Back <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Hot Stones Back <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£26</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Full Body Massage <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£38</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Hot Stones Full Body <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£40</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Aroma Full Body <span class="text-xs text-slate-400 dark:text-amethyst-500">90 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£48</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Waxing</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Full Leg <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£25</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Half Leg <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£18</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Full Leg &amp; Bikini <span class="text-xs text-slate-400 dark:text-amethyst-500">60 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£33</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Half Leg &amp; Bikini <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Standard Bikini <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£15</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Underarm <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£13</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Upper Lip &amp; Chin <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£12</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Back &amp; Shoulder <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£28</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white/70 dark:bg-amethyst-950/60 border border-slate-100 dark:border-amethyst-800 rounded-2xl p-6 backdrop-blur-sm">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-amethyst-800">Holistic &amp; Other</h3>
-                    <ul class="space-y-3">
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Indian Head Massage <span class="text-xs text-slate-400 dark:text-amethyst-500">30 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£22</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Hopi Ear Candles <span class="text-xs text-slate-400 dark:text-amethyst-500">45 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£32</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Spray Tan <span class="text-xs text-slate-400 dark:text-amethyst-500">15 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£20</span>
-                        </li>
-                        <li class="flex justify-between items-baseline gap-4">
-                            <span class="text-slate-700 dark:text-amethyst-200">Ear Piercing (both ears) <span class="text-xs text-slate-400 dark:text-amethyst-500">20 min</span></span>
-                            <span class="font-semibold text-amethyst-900 dark:text-amethyst-300 shrink-0">£40</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
         </div>
 
         <!-- CTA note -->
@@ -1223,19 +1215,50 @@
     </footer>
 
 
+    <!-- Back-to-top -->
+    <button id="back-to-top" aria-label="Back to top"
+        onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 15V5M10 5L6 9M10 5L14 9" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+
     <!-- ════════════════════════════════════════
          SCRIPTS
     ════════════════════════════════════════ -->
     <script>
         lucide.createIcons();
 
-        // ── Pricing tabs ──
-        function showPriceTab(tab) {
-            document.querySelectorAll('.price-panel').forEach(p => p.classList.add('hidden'));
-            document.querySelectorAll('.price-tab').forEach(b => b.classList.remove('active-tab'));
-            document.getElementById('panel-' + tab).classList.remove('hidden');
-            document.getElementById('tab-' + tab).classList.add('active-tab');
-        }
+        // ── Slim sticky nav: shrink when scrolled past 50px ──
+        (function () {
+            var nav = document.getElementById('main-nav');
+            function tick() { nav.classList.toggle('nav-shrunk', window.scrollY > 50); }
+            window.addEventListener('scroll', tick, { passive: true });
+            tick();
+        })();
+
+        // ── Before/After comparison slider ──
+        (function () {
+            var range   = document.getElementById('slider-range');
+            var after   = document.getElementById('slider-after');
+            var divider = document.getElementById('slider-divider');
+            if (!range) return;
+            function update(v) {
+                after.style.clipPath  = 'inset(0 ' + (100 - v) + '% 0 0)';
+                divider.style.left    = v + '%';
+            }
+            update(50);
+            range.addEventListener('input', function () { update(this.value); });
+        })();
+
+        // ── Back-to-top visibility ──
+        (function () {
+            var btn = document.getElementById('back-to-top');
+            window.addEventListener('scroll', function () {
+                btn.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+        })();
 
         // ── Dark mode ──
         function toggleDarkMode() {
