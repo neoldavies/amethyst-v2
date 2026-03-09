@@ -13,12 +13,11 @@
             --text: #f5f5f5;
             --danger: #ff4d4d;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body {
             font-family: 'Lato', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text);
-            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -27,122 +26,131 @@
             overflow: hidden;
         }
         #game-container {
-            width: 92vw;
-            max-width: 400px;
-            height: 92dvh;
-            max-height: 700px;
+            width: 95vw;
+            max-width: 420px;
+            height: 96dvh;
             background: #25162b;
-            padding: 15px;
-            border-radius: 15px;
+            padding: 10px;
+            border-radius: 12px;
             border: 1px solid var(--gold);
             display: flex;
             flex-direction: column;
             position: relative;
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
-        /* Fixed Header Area */
-        .header { flex-shrink: 0; margin-bottom: 10px; }
-        .utility-bar { display: flex; justify-content: flex-end; gap: 15px; margin-bottom: 5px; }
-        .icon-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 1.1rem; }
-
-        h1 { font-family: 'Playfair Display', serif; color: var(--gold); margin: 0; font-size: 1.4rem; letter-spacing: 1px; }
-        .stats-bar {
-            display: flex; justify-content: space-between; align-items: center;
-            margin: 8px 0; font-size: 0.7rem; text-transform: uppercase; color: var(--gold);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 8px;
+        /* COMPACT HEADER */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            flex-shrink: 0;
         }
-        /* --- THE GRID Safe Zone --- */
+        .brand {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .utility-btns { display: flex; gap: 8px; }
+        .icon-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 1rem; padding: 2px; }
+        /* COMPACT STATS */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* DYNAMIC GRID CONTAINER */
         #grid-container {
-            flex: 1;
+            flex: 1; /* Takes remaining space */
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 0; /* Prevents container from growing past flex-parent */
-            width: 100%;
+            min-height: 0; /* Critical for shrinking on mobile */
             padding: 10px 0;
         }
         #grid {
             display: grid;
             gap: 8px;
             width: 100%;
-            max-height: 100%; /* Important: Limits grid height to the container */
-            aspect-ratio: 1 / 1; /* Keeps the whole grid square */
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            max-height: 100%; /* Force grid to fit in container */
+            aspect-ratio: 1 / 1;
             margin: auto;
+            transition: transform 0.6s ease;
         }
         .card {
             background: linear-gradient(145deg, #3a2244, #25162b);
             border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            position: relative;
             transform-style: preserve-3d;
             transition: 0.3s;
-            width: 100%;
-            height: 100%;
+            position: relative;
         }
         .card span {
             display: none; font-size: 1.8rem;
-            transition: transform 0.8s; pointer-events: none; text-align: center;
+            pointer-events: none; text-align: center;
         }
-        .text-card span { font-size: 0.7rem; font-weight: bold; line-height: 1; }
+        .text-card span { font-size: 0.65rem; font-weight: bold; padding: 4px; line-height: 1.1; }
         .card.flipped { background: var(--amethyst); border-color: var(--gold); transform: rotateY(180deg); }
         .card.flipped span { display: block; transform: rotateY(-180deg); }
         .card.matched { opacity: 0; transform: scale(0.5); pointer-events: none; }
-        /* --- ROTATION MODES --- */
+        /* ROTATION */
         #grid.rotated { transform: rotate(180deg); }
         #grid.rotated.smart-orient span { transform: rotateY(-180deg) rotateZ(180deg); }
-        #grid.rotated.full-invert span { transform: rotateY(-180deg) rotateZ(0deg); }
-        /* --- UI OVERLAY --- */
+        /* BOTTOM TEXT */
+        .footer { flex-shrink: 0; padding-top: 5px; text-align: center; }
+        .hint { font-size: 0.6rem; color: rgba(255,255,255,0.3); }
+        /* OVERLAY - Perfect Center */
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(26, 15, 31, 0.98);
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 100; border-radius: 14px; padding: 20px; text-align: center;
+            z-index: 100; border-radius: 12px; padding: 20px; text-align: center;
         }
-        button.main-btn {
+        .main-btn {
             background: transparent; color: var(--gold); border: 1px solid var(--gold);
-            padding: 12px 30px; font-family: 'Playfair Display', serif;
+            padding: 10px 25px; font-family: 'Playfair Display', serif;
             font-size: 1rem; cursor: pointer; border-radius: 4px; margin-top: 15px;
         }
-        #timer { font-weight: bold; min-width: 40px; display: inline-block; }
-        .timer-warning { color: var(--danger); text-shadow: 0 0 10px var(--danger); }
-
-        .footer-area { flex-shrink: 0; height: 30px; display: flex; align-items: center; justify-content: center; }
-        .hint { font-size: 0.6rem; color: rgba(255,255,255,0.3); margin: 0; }
-
+        #timer.timer-warning { color: var(--danger); font-weight: bold; }
         body.high-contrast .card.flipped { background: #fff !important; color: #000 !important; }
     </style>
 </head>
 <body>
 <div id="game-container">
-    <div class="header">
-        <div class="utility-bar">
+    <div class="top-nav">
+        <div style="font-size: 0.7rem; color: var(--gold)">SCORE: <span id="score-val">0</span></div>
+        <div class="brand">Amethyst Glow</div>
+        <div class="utility-btns">
             <button class="icon-btn" onclick="toggleA11y()">👁️</button>
             <button id="btn-mute" class="icon-btn" onclick="toggleMute()">🔊</button>
             <button class="icon-btn" onclick="togglePause()">⏸️</button>
         </div>
-        <div class="stats-bar">
-            <div>LVL <span id="level-val">1</span></div>
-            <div style="font-weight:700">SCORE: <span id="score-val">0</span></div>
-            <div><span id="timer">10.5</span>S</div>
-        </div>
-
-        <h1>Amethyst Glow</h1>
+    </div>
+    <div class="stats-bar">
+        <div>LVL <span id="level-val">1</span></div>
+        <div id="timer-box"><span id="timer">10.5</span>S</div>
     </div>
     <div id="grid-container">
         <div id="grid"></div>
     </div>
-    <div class="footer-area">
+    <div class="footer">
         <p class="hint" id="level-hint"></p>
     </div>
     <div id="overlay" class="overlay">
-        <h2 id="overlay-title" style="color:var(--gold); font-family:'Playfair Display'; margin:0"></h2>
-        <p id="overlay-msg" style="margin:10px 0"></p>
-        <div id="bonus-info" style="color:#4dff88; font-weight:bold; font-size:0.8rem"></div>
+        <h2 id="overlay-title" style="color:var(--gold); font-family:'Playfair Display';"></h2>
+        <p id="overlay-msg" style="margin:8px 0; font-size: 0.9rem;"></p>
+        <div id="bonus-info" style="color:#4dff88; font-weight:bold; font-size:0.75rem"></div>
         <button class="main-btn" onclick="initAndStart()">Begin</button>
     </div>
 </div>
@@ -157,11 +165,12 @@
     let seen = new Set(), errors = 0, isUpsideDown = false;
     let isMuted = false, isA11y = false;
     window.onload = () => {
-        const saved = JSON.parse(localStorage.getItem('amethyst_glow_v6'));
+        const saved = JSON.parse(localStorage.getItem('amethyst_glow_v7'));
         if (saved) { level = saved.level || 1; score = saved.score || 0; isMuted = saved.muted || false; isA11y = saved.a11y || false; }
         document.getElementById('score-val').innerText = score;
         updateMuteUI();
-        showOverlay("Amethyst Glow", "Ready for your session?", "Start Game");
+        if(isA11y) document.body.classList.add('high-contrast');
+        showOverlay("Amethyst Glow", "A test of memory and focus.", "Start Game");
     };
     function showOverlay(title, msg, btnText) {
         document.getElementById('overlay-title').innerText = title;
@@ -172,14 +181,14 @@
     function toggleMute() { isMuted = !isMuted; updateMuteUI(); save(); }
     function updateMuteUI() { document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊'; }
     function toggleA11y() { isA11y = !isA11y; document.body.classList.toggle('high-contrast', isA11y); save(); initGrid(); }
-    function save() { localStorage.setItem('amethyst_glow_v6', JSON.stringify({level, score, muted: isMuted, a11y: isA11y})); }
+    function save() { localStorage.setItem('amethyst_glow_v7', JSON.stringify({level, score, muted: isMuted, a11y: isA11y})); }
     function togglePause() {
         if (timeLeft <= 0) return;
         isPaused = !isPaused;
         if (isPaused) {
             clearInterval(timerInterval);
             document.getElementById('grid').style.visibility = 'hidden';
-            showOverlay("Paused", "Your progress is safe.", "Resume");
+            showOverlay("Paused", "Relax. Progress saved.", "Resume");
         } else {
             document.getElementById('grid').style.visibility = 'visible';
             document.getElementById('overlay').style.display = 'none';
@@ -212,14 +221,12 @@
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('bonus-info').innerText = "";
         isPaused = false; matchedPairs = 0; flippedCards = []; seen.clear(); errors = 0; isUpsideDown = false;
-
         const grid = document.getElementById('grid');
-        grid.classList.remove('rotated', 'smart-orient', 'full-invert');
+        grid.classList.remove('rotated', 'smart-orient');
         grid.style.transform = 'rotate(0deg)';
         timeLeft = parseFloat(((10 + (level - 1) * 5) * 1.05).toFixed(1));
         document.getElementById('level-val').innerText = level;
         document.getElementById('score-val').innerText = score;
-
         initGrid();
         runTimer();
     }
@@ -227,7 +234,6 @@
         const grid = document.getElementById('grid');
         grid.innerHTML = '';
         grid.style.visibility = 'visible';
-
         let pairsCount = Math.min(2 + level, 10);
         let cols = (level < 3) ? 2 : (level < 6 ? 3 : 4);
         grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
@@ -239,8 +245,7 @@
         let cards = [];
         currentSet.forEach(item => {
             if (type === "hybrid") {
-                cards.push({ id: item.e, val: item.e, isText: false });
-                cards.push({ id: item.e, val: item.t, isText: true });
+                cards.push({ id: item.e, val: item.e, isText: false }, { id: item.e, val: item.t, isText: true });
             } else if (type === "text") {
                 cards.push({ id: item.e, val: item.t, isText: true }, { id: item.e, val: item.t, isText: true });
             } else {
@@ -255,7 +260,7 @@
             card.onclick = () => handleCardClick(card);
             grid.appendChild(card);
         });
-        document.getElementById('level-hint').innerText = `Lvl ${level}: ${type.toUpperCase()}`;
+        document.getElementById('level-hint').innerText = `Level ${level}: ${type.toUpperCase()}`;
     }
     function runTimer() {
         clearInterval(timerInterval);
@@ -284,6 +289,7 @@
         if (c1.dataset.id === c2.dataset.id) {
             matchedPairs++; score += 2;
             timeLeft = Math.min(timeLeft + Math.min(level, 5), 60);
+            if ("vibrate" in navigator) navigator.vibrate(50);
             setTimeout(() => {
                 c1.classList.add('matched'); c2.classList.add('matched');
                 if (level >= 5) {
@@ -291,7 +297,6 @@
                     const g = document.getElementById('grid');
                     g.classList.toggle('rotated', isUpsideDown);
                     g.classList.toggle('smart-orient', level < 8);
-                    g.classList.toggle('full-invert', level >= 8);
                 }
                 flippedCards = []; isProcessing = false;
                 if (matchedPairs === (document.querySelectorAll('.card').length / 2)) triggerWin();
@@ -300,6 +305,7 @@
             if (seen.has(c1.dataset.id) || seen.has(c2.dataset.id)) {
                 errors++; score = Math.max(0, score - 1);
                 if (level >= 5) timeLeft = Math.max(0, timeLeft - 1);
+                if ("vibrate" in navigator) navigator.vibrate([40, 30, 40]);
             }
             seen.add(c1.dataset.id); seen.add(c2.dataset.id);
             setTimeout(() => { c1.classList.remove('flipped'); c2.classList.remove('flipped'); flippedCards = []; isProcessing = false; }, 800);
@@ -311,13 +317,13 @@
         let bonus = (errors === 0) ? 30 : 10;
         score += bonus; level++; save(); playSound('win');
         setTimeout(() => {
-            document.getElementById('bonus-info').innerText = (errors === 0) ? "PERFECT! +30" : "+10 Points";
-            showOverlay("Level Complete!", `Score: ${score}`, `Begin Level ${level}`);
+            document.getElementById('bonus-info').innerText = (errors === 0) ? "FLAWLESS! +30" : "+10 Points";
+            showOverlay("Radiant Finish!", `Score: ${score}`, `Begin Level ${level}`);
         }, 1000);
     }
     function gameOver() {
         clearInterval(timerInterval);
-        showOverlay("Time Expired", `Final Score: ${score}`, "Restart Game");
+        showOverlay("Time's Up", `Final Score: ${score}`, "Restart");
         document.querySelector('#overlay button').onclick = () => { level = 1; score = 0; save(); startLevel(); };
     }
 </script>
