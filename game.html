@@ -31,15 +31,14 @@
         #game-container {
             width: 95vw;
             max-width: 420px;
-            height: 96dvh;
+            height: 94dvh;
             background: #25162b;
-            padding: 10px;
+            padding: 12px;
             border-radius: 12px;
             border: 1px solid var(--gold);
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
         .top-nav {
@@ -51,75 +50,67 @@
             flex-shrink: 0;
         }
 
-        .brand {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .utility-btns { display: flex; gap: 8px; }
-        .icon-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 1rem; padding: 2px; }
+        .brand { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 0.9rem; text-transform: uppercase; }
+        .utility-btns { display: flex; gap: 10px; }
+        .icon-btn { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 1.1rem; }
 
         .stats-bar {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 10px 0;
             font-size: 0.75rem;
             color: var(--gold);
             font-weight: bold;
-            flex-shrink: 0;
         }
 
+        /* FIXED GRID LOGIC */
         #grid-container {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 0;
-            padding: 10px 0;
+            min-height: 320px; /* Prevent collapse */
+            width: 100%;
         }
 
         #grid {
             display: grid;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
-            max-height: 100%;
-            aspect-ratio: 1 / 1;
+            max-width: 360px;
             margin: auto;
             transition: transform 0.6s ease;
         }
 
         .card {
+            aspect-ratio: 1 / 1;
             background: linear-gradient(145deg, #3a2244, #25162b);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transform-style: preserve-3d;
-            transition: 0.3s;
-            width: 100%;
-            height: 100%;
+            transition: 0.4s;
+            position: relative;
         }
 
         .card span {
-            display: none; font-size: 1.8rem;
-            pointer-events: none; text-align: center;
+            display: none; font-size: 2rem;
+            pointer-events: none;
         }
-        .text-card span { font-size: 0.65rem; font-weight: bold; padding: 4px; line-height: 1.1; }
+        .text-card span { font-size: 0.7rem; font-weight: bold; padding: 4px; }
 
         .card.flipped { background: var(--amethyst); border-color: var(--gold); transform: rotateY(180deg); }
         .card.flipped span { display: block; transform: rotateY(-180deg); }
-        .card.matched { opacity: 0; transform: scale(0.5); pointer-events: none; }
+        .card.matched { opacity: 0; pointer-events: none; transform: scale(0.8); transition: 0.5s; }
 
         #grid.rotated { transform: rotate(180deg); }
         #grid.rotated.smart-orient span { transform: rotateY(-180deg) rotateZ(180deg); }
 
-        .footer { flex-shrink: 0; padding-top: 5px; text-align: center; }
-        .hint { font-size: 0.6rem; color: rgba(255,255,255,0.3); }
+        .footer { flex-shrink: 0; padding-top: 10px; text-align: center; }
+        .hint { font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
 
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -130,11 +121,11 @@
 
         .main-btn {
             background: transparent; color: var(--gold); border: 1px solid var(--gold);
-            padding: 10px 25px; font-family: 'Playfair Display', serif;
-            font-size: 1rem; cursor: pointer; border-radius: 4px; margin-top: 15px;
+            padding: 14px 35px; font-family: 'Playfair Display', serif;
+            font-size: 1.1rem; cursor: pointer; border-radius: 4px; margin-top: 20px;
         }
 
-        #timer.timer-warning { color: var(--danger); font-weight: bold; }
+        #timer.timer-warning { color: var(--danger); font-weight: 900; }
         body.high-contrast .card.flipped { background: #fff !important; color: #000 !important; }
     </style>
 </head>
@@ -152,8 +143,8 @@
     </div>
 
     <div class="stats-bar">
-        <div>LVL <span id="level-val">1</span></div>
-        <div id="timer-box"><span id="timer">10.5</span>S</div>
+        <div>LEVEL <span id="level-val">1</span></div>
+        <div>TIME: <span id="timer">10.5</span>S</div>
     </div>
 
     <div id="grid-container">
@@ -166,36 +157,31 @@
 
     <div id="overlay" class="overlay">
         <h2 id="overlay-title" style="color:var(--gold); font-family:'Playfair Display';"></h2>
-        <p id="overlay-msg" style="margin:8px 0; font-size: 0.9rem;"></p>
-        <div id="bonus-info" style="color:#4dff88; font-weight:bold; font-size:0.75rem"></div>
+        <p id="overlay-msg" style="margin:12px 0; font-size: 1rem;"></p>
+        <div id="bonus-info" style="color:#4dff88; font-weight:bold; font-size:0.8rem"></div>
         <button id="overlay-btn" class="main-btn" onclick="initAndStart()">Begin</button>
     </div>
 </div>
 
 <script>
-    const data = [
+    const beautyData = [
         {e: '✨', t: 'GLOW'}, {e: '💎', t: 'GEMS'}, {e: '💄', t: 'LIPS'},
         {e: '🧴', t: 'LOTION'}, {e: '🧖‍♀️', t: 'SPA'}, {e: '✂️', t: 'CUT'},
         {e: '💅', t: 'NAILS'}, {e: '💆‍♀️', t: 'RELAX'}, {e: '🎨', t: 'ART'}, {e: '🪞', t: 'MIRROR'}
     ];
 
     let level = 1, score = 0, timeLeft = 10.5, timerInterval, audioCtx = null;
-    let flippedCards = [], matchedPairs = 0, isProcessing = false, isPaused = false;
+    let flippedCards = [], matchedPairs = 0, pairsInLevel = 0, isProcessing = false, isPaused = false;
     let seen = new Set(), errors = 0, isUpsideDown = false;
     let isMuted = false, isA11y = false;
 
     window.onload = () => {
-        const saved = JSON.parse(localStorage.getItem('amethyst_glow_vFinal'));
-        if (saved) {
-            level = saved.level || 1;
-            score = saved.score || 0;
-            isMuted = saved.muted || false;
-            isA11y = saved.a11y || false;
-        }
+        const saved = JSON.parse(localStorage.getItem('amethyst_glow_vFinal_Fixed'));
+        if (saved) { level = saved.level || 1; score = saved.score || 0; isMuted = saved.muted || false; isA11y = saved.a11y || false; }
         document.getElementById('score-val').innerText = score;
         updateMuteUI();
         if(isA11y) document.body.classList.add('high-contrast');
-        showOverlay("Amethyst Glow", "Ready for your session?", `Begin Level ${level}`);
+        showOverlay("Amethyst Glow", "Focus your mind, reveal your radiance.", `Begin Level ${level}`);
     };
 
     function showOverlay(title, msg, btnText) {
@@ -208,7 +194,7 @@
     function toggleMute() { isMuted = !isMuted; updateMuteUI(); save(); }
     function updateMuteUI() { document.getElementById('btn-mute').innerText = isMuted ? '🔇' : '🔊'; }
     function toggleA11y() { isA11y = !isA11y; document.body.classList.toggle('high-contrast', isA11y); save(); initGrid(); }
-    function save() { localStorage.setItem('amethyst_glow_vFinal', JSON.stringify({level, score, muted: isMuted, a11y: isA11y})); }
+    function save() { localStorage.setItem('amethyst_glow_vFinal_Fixed', JSON.stringify({level, score, muted: isMuted, a11y: isA11y})); }
 
     function togglePause() {
         if (timeLeft <= 0) return;
@@ -216,7 +202,7 @@
         if (isPaused) {
             clearInterval(timerInterval);
             document.getElementById('grid').style.visibility = 'hidden';
-            showOverlay("Paused", "Your progress is safe.", "Resume");
+            showOverlay("Paused", "Ready when you are.", "Resume");
             document.getElementById('overlay-btn').onclick = togglePause;
         } else {
             document.getElementById('grid').style.visibility = 'visible';
@@ -252,14 +238,12 @@
 
     function startLevel() {
         document.getElementById('overlay').style.display = 'none';
-        document.getElementById('bonus-info').innerText = "";
         isPaused = false; matchedPairs = 0; flippedCards = []; seen.clear(); errors = 0; isUpsideDown = false;
 
         const grid = document.getElementById('grid');
         grid.classList.remove('rotated', 'smart-orient');
         grid.style.transform = 'rotate(0deg)';
 
-        // Corrected level scaling
         timeLeft = parseFloat(((10 + (level - 1) * 5) * 1.05).toFixed(1));
         document.getElementById('level-val').innerText = level;
         document.getElementById('score-val').innerText = score;
@@ -273,13 +257,9 @@
         grid.innerHTML = '';
         grid.style.visibility = 'visible';
 
-        // DIFFICULTY LOGIC RE-CALCULATED EVERY ROUND
-        let pairsCount = Math.min(2 + (level - 1), 10);
-        let cols;
-        if (level < 3) cols = 2;
-        else if (level < 6) cols = 3;
-        else cols = 4;
-
+        // DIFFICULTY CALCULATION
+        pairsInLevel = Math.min(2 + (level - 1), 10);
+        let cols = (level < 3) ? 2 : (level < 6 ? 3 : 4);
         grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
         let type = "icon";
@@ -287,9 +267,8 @@
         else if (level >= 10) type = "hybrid";
         if (isA11y) type = "text";
 
-        let currentSet = data.slice(0, pairsCount);
         let cards = [];
-        currentSet.forEach(item => {
+        beautyData.slice(0, pairsInLevel).forEach(item => {
             if (type === "hybrid") {
                 cards.push({ id: item.e, val: item.e, isText: false }, { id: item.e, val: item.t, isText: true });
             } else if (type === "text") {
@@ -307,8 +286,7 @@
             card.onclick = () => handleCardClick(card);
             grid.appendChild(card);
         });
-
-        document.getElementById('level-hint').innerText = `Level ${level}: ${type.toUpperCase()}`;
+        document.getElementById('level-hint').innerText = `${type.toUpperCase()} MODE`;
     }
 
     function runTimer() {
@@ -339,9 +317,11 @@
         isProcessing = true;
         const [c1, c2] = flippedCards;
         if (c1.dataset.id === c2.dataset.id) {
-            matchedPairs++; score += 2;
+            matchedPairs++;
+            score += 2;
             timeLeft = Math.min(timeLeft + Math.min(level, 5), 60);
             if ("vibrate" in navigator) navigator.vibrate(50);
+
             setTimeout(() => {
                 c1.classList.add('matched'); c2.classList.add('matched');
                 if (level >= 5) {
@@ -351,10 +331,9 @@
                     g.classList.toggle('smart-orient', level < 8);
                 }
                 flippedCards = []; isProcessing = false;
-                if (matchedPairs === (document.querySelectorAll('.card:not(.matched)').length === 0)) {
-                    // This logic check is safer for grid resizing
-                    if(matchedPairs === (document.querySelectorAll('.card').length / 2)) triggerWin();
-                }
+
+                // FIXED WIN CONDITION
+                if (matchedPairs === pairsInLevel) triggerWin();
             }, 500);
         } else {
             if (seen.has(c1.dataset.id) || seen.has(c2.dataset.id)) {
@@ -373,15 +352,14 @@
         let bonus = (errors === 0) ? 30 : 10;
         score += bonus; level++; save(); playSound('win');
         setTimeout(() => {
-            document.getElementById('bonus-info').innerText = (errors === 0) ? "FLAWLESS! +30" : "+10 Points";
-            showOverlay("Radiant Finish!", `Score: ${score}`, `Begin Level ${level}`);
+            showOverlay("Level Complete!", (errors === 0 ? "Flawless Radiant Finish! +30" : "Looking Radiant! +10"), `Begin Level ${level}`);
             document.getElementById('overlay-btn').onclick = initAndStart;
         }, 1000);
     }
 
     function gameOver() {
         clearInterval(timerInterval);
-        showOverlay("Time's Up", `Final Score: ${score}`, "Restart");
+        showOverlay("Time's Up", "Even beauty needs a refresh.", "Restart Game");
         document.getElementById('overlay-btn').onclick = () => { level = 1; score = 0; save(); startLevel(); };
     }
 </script>
