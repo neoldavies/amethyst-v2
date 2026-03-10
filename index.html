@@ -62,17 +62,20 @@
         #mobile-menu { display: none; }
         #mobile-menu.open { display: block; }
 
-        /* ── Page background gradients ──
-           Light: barely-there purple bloom at top
-           Dark:  rich deep-amethyst bloom fading to near-black */
+        /* ── Background palette ──
+           --bg-color drives both the solid fill and the gradient terminus.
+           Amethyst White (#f5f0ff): airy lavender — purple-tinted, never stark white.
+           Amethyst Black (#0d0818): midnight purple — deep violet-black, never pure black. */
+        :root        { --bg-color: #f5f0ff; }
+        html.dark    { --bg-color: #0d0818; }
+
         body {
-            background-color: #faf8ff;
-            background-image: radial-gradient(ellipse 90% 45% at 50% -5%, #e8d8ff 0%, #faf8ff 65%);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(ellipse 90% 45% at 50% -5%, #e8d8ff 0%, var(--bg-color) 65%);
             transition: background-color 0.3s ease, background-image 0.3s ease;
         }
         html.dark body {
-            background-color: #0f0a1f;
-            background-image: radial-gradient(ellipse 90% 45% at 50% -5%, #2d1060 0%, #0f0a1f 65%);
+            background-image: radial-gradient(ellipse 90% 45% at 50% -5%, #2d1060 0%, var(--bg-color) 65%);
         }
 
         /* ── Fade-in animation ── */
