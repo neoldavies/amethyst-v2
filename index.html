@@ -287,17 +287,34 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "NailSalon",
+      "@type": ["LocalBusiness", "NailSalon"],
       "name": "Amethyst Nails & Beauty",
-      "url": "https://amethystnails.co.uk",
-      "telephone": "01427617211",
+      "url": "https://www.amethystnails.co.uk/index.html",
+      "telephone": "+441427617211",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "98 Trinity Street",
         "addressLocality": "Gainsborough",
         "postalCode": "DN21 1HS",
         "addressCountry": "GB"
-      }
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "09:00",
+          "closes": "17:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Saturday"],
+          "opens": "09:00",
+          "closes": "16:00"
+        }
+      ],
+      "priceRange": "££",
+      "description": "Professional nail, lash and brow treatments in Gainsborough since 1995.",
+      "foundingDate": "1995"
     }
     </script>
 </head>
@@ -412,7 +429,7 @@
             </p>
 
             <p class="text-slate-500 dark:text-amethyst-400 text-sm font-medium mb-10 fade-in-up delay-300">
-                Fully Qualified &bull; Private Studio &bull; Professional Products
+                Fully Qualified &bull; Private Studio &bull; Premium Products
             </p>
 
             <div class="flex flex-wrap gap-4 fade-in-up delay-400">
@@ -433,23 +450,20 @@
 
             <!-- Task 4: Service strip -->
             <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-semibold text-slate-600 dark:text-amethyst-300 mb-4">
-                <span>BIAB Nails</span>
+                <span>BIAB Nails in Gainsborough</span>
                 <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
                 <span>Builder Gel</span>
                 <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
-                <span>Gel Polish</span>
+                <span>Gel Nails</span>
                 <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
                 <span>Nail Art</span>
                 <span class="text-slate-300 dark:text-amethyst-700" aria-hidden="true">|</span>
                 <span>Nail Repairs</span>
             </div>
 
-            <!-- Task 5: Review proof line -->
-            <p class="text-center text-sm text-slate-500 dark:text-amethyst-400">
-                &#11088; Rated 5&#9733; by local clients in Gainsborough
-            </p>
-            <p class="text-center text-sm text-slate-500 dark:text-amethyst-400 mt-1">
-                Trusted by Gainsborough clients since 1995.
+            <!-- Trust signal -->
+            <p class="text-center text-sm font-semibold text-amethyst-700 dark:text-amethyst-400">
+                &#9733;&#9733;&#9733;&#9733;&#9733; Rated 5&#9733; by local clients in Gainsborough since 1995
             </p>
 
         </div>
@@ -488,14 +502,14 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Our Services</h2>
-                <p class="text-slate-600 dark:text-amethyst-300 text-lg">Every treatment is performed by fully qualified, insured technicians using premium, skin-safe products.</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Professional Nail &amp; Beauty Treatments in Gainsborough</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg">Professional nail, lash and brow treatments performed by qualified technicians in Gainsborough.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- BIAB -->
-                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="flask-conical" class="w-6 h-6"></i>
                     </div>
@@ -510,7 +524,7 @@
                 </div>
 
                 <!-- Gel Polish -->
-                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="paintbrush" class="w-6 h-6"></i>
                     </div>
@@ -525,7 +539,7 @@
                 </div>
 
                 <!-- Nail Art & Chrome -->
-                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="wand-2" class="w-6 h-6"></i>
                     </div>
@@ -540,7 +554,7 @@
                 </div>
 
                 <!-- Lash Extensions -->
-                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="eye" class="w-6 h-6"></i>
                     </div>
@@ -556,7 +570,7 @@
                 </div>
 
                 <!-- Brow Treatments -->
-                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="pencil" class="w-6 h-6"></i>
                     </div>
@@ -571,7 +585,7 @@
                 </div>
 
                 <!-- Tinting -->
-                <div class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="droplets" class="w-6 h-6"></i>
                     </div>
@@ -719,7 +733,7 @@
     <section id="gallery" class="py-16 bg-amethyst-950 text-white overflow-hidden">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex justify-between items-end">
             <div>
-                <h2 class="font-serif text-4xl font-bold mb-2">Precision Portfolio</h2>
+                <h2 class="font-serif text-4xl font-bold mb-2">Recent Nail Work</h2>
                 <p class="text-amethyst-300">Swipe to view our work.</p>
             </div>
             <div class="hidden md:flex gap-2">
@@ -759,7 +773,7 @@
                     alt="Precision nail art linework" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition duration-500">
                 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-amethyst-950 to-transparent">
                     <p class="font-semibold">Precision Linework</p>
-                    <p class="text-sm text-amethyst-300">Anhydrous Prep</p>
+                    <p class="text-sm text-amethyst-300">Classic French</p>
                 </div>
             </div>
 
@@ -768,7 +782,7 @@
                     alt="Natural nail rehabilitation" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition duration-500">
                 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-amethyst-950 to-transparent">
                     <p class="font-semibold">Damage Rehabilitation</p>
-                    <p class="text-sm text-amethyst-300">Medical-Grade Base</p>
+                    <p class="text-sm text-amethyst-300">Nail Rehabilitation</p>
                 </div>
             </div>
 
@@ -1056,6 +1070,12 @@
 
         </div>
 
+        <div class="text-center mt-10">
+            <a href="#contact" class="inline-flex items-center gap-2 bg-amethyst-900 hover:bg-amethyst-800 dark:bg-amethyst-700 dark:hover:bg-amethyst-600 text-white font-bold px-8 py-4 rounded-full text-base transition-all transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                Book Your Appointment
+            </a>
+        </div>
 
     </section>
 
@@ -1091,13 +1111,81 @@
 
 
     <!-- ════════════════════════════════════════
+         FAQ
+    ════════════════════════════════════════ -->
+    <section id="faq" class="py-24 bg-white/60 dark:bg-amethyst-950/70 backdrop-blur-sm border-y border-slate-100 dark:border-amethyst-900 transition-colors">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Frequently Asked Questions</h2>
+                <p class="text-slate-600 dark:text-amethyst-300 text-lg">Everything you need to know before your visit.</p>
+            </div>
+
+            <div class="space-y-4">
+
+                <details class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 border border-amethyst-100 dark:border-amethyst-800 rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer font-semibold text-slate-900 dark:text-white list-none">
+                        How do I book an appointment at Amethyst Nails &amp; Beauty?
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amethyst-700 dark:text-amethyst-400 shrink-0 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
+                        The easiest way to book is to call us on <a href="tel:01427617211" class="text-amethyst-700 dark:text-amethyst-400 font-semibold hover:underline">01427 617211</a>. We're open Monday to Friday 9:00–17:30 and Saturday 9:00–16:00. Speaking directly to our team means you get the right appointment and the right technician first time.
+                    </div>
+                </details>
+
+                <details class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 border border-amethyst-100 dark:border-amethyst-800 rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer font-semibold text-slate-900 dark:text-white list-none">
+                        What is BIAB (Builder in a Bottle) and is it suitable for weak nails?
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amethyst-700 dark:text-amethyst-400 shrink-0 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
+                        BIAB is a flexible builder gel applied directly over your natural nail to add strength and length. Our HEMA-free formula bonds without thinning the nail plate, making it ideal for weak, damaged, or bitten nails. Results typically last 3–4 weeks with zero lifting when properly applied.
+                    </div>
+                </details>
+
+                <details class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 border border-amethyst-100 dark:border-amethyst-800 rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer font-semibold text-slate-900 dark:text-white list-none">
+                        How long do gel nails last, and when should I book an infill?
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amethyst-700 dark:text-amethyst-400 shrink-0 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
+                        Gel polish typically lasts 2–3 weeks; gel enhancements and BIAB last 3–4 weeks. We recommend booking an infill appointment at 2–3 weeks to keep your nails looking their best and to protect your natural nail from lifting or snagging.
+                    </div>
+                </details>
+
+                <details class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 border border-amethyst-100 dark:border-amethyst-800 rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer font-semibold text-slate-900 dark:text-white list-none">
+                        Do you offer lash and brow treatments in Gainsborough?
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amethyst-700 dark:text-amethyst-400 shrink-0 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
+                        Yes — our beauty specialist Sorcha offers a full range of lash and brow treatments including classic and Russian Volume lash extensions, brow lamination, tinting, shaping, and lash lifts. All eye treatments are patch-tested as standard and tailored to your natural features.
+                    </div>
+                </details>
+
+                <details class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 border border-amethyst-100 dark:border-amethyst-800 rounded-2xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer font-semibold text-slate-900 dark:text-white list-none">
+                        Where is Amethyst Nails &amp; Beauty located in Gainsborough?
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-amethyst-700 dark:text-amethyst-400 shrink-0 transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-amethyst-300 text-sm leading-relaxed">
+                        We're located at <strong class="text-slate-800 dark:text-white">98 Trinity Street, Gainsborough, DN21 1HS</strong>. There is on-street parking nearby. We operate as a private studio by appointment, so please call ahead on <a href="tel:01427617211" class="text-amethyst-700 dark:text-amethyst-400 font-semibold hover:underline">01427 617211</a> to secure your slot.
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════
          CONTACT & BOOKING
     ════════════════════════════════════════ -->
     <section id="contact" class="py-24 transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Book an Appointment</h2>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Book Your Appointment in Gainsborough</h2>
                 <p class="text-slate-600 dark:text-amethyst-300 text-lg">Skip generic booking forms. Speak directly to our technicians to discuss your needs and get the right appointment first time.</p>
             </div>
 
@@ -1184,7 +1272,7 @@
                         </a>
                         <span class="font-bold text-lg text-white">Amethyst Nails & Beauty</span>
                     </div>
-                    <p class="text-amethyst-400 text-sm max-w-xs">Expert artistry. High-quality professional products. Gainsborough's home for professional nail and beauty treatments.</p>
+                    <p class="text-amethyst-400 text-sm max-w-xs">Professional nail, lash and brow treatments in Gainsborough since 1995.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-x-12 gap-y-3 text-sm">
@@ -1231,6 +1319,9 @@
          SCRIPTS
     ════════════════════════════════════════ -->
     <script>
+        // Base URL for price fetching
+        var BASE_URL = 'https://www.amethystnails.co.uk/index.html';
+
         lucide.createIcons();
 
         // ── Slim sticky nav: shrink when scrolled past 50px ──
@@ -1268,6 +1359,15 @@
             const html = document.documentElement;
             const isDark = html.classList.toggle('dark');
             localStorage.setItem('amethyst-theme', isDark ? 'dark' : 'light');
+        }
+
+        // ── Service card click: call on mobile, scroll to booking on desktop ──
+        function bookService() {
+            if (window.innerWidth < 768) {
+                window.location.href = 'tel:01427617211';
+            } else {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // ── Mobile menu ──
