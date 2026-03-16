@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amethyst Nails & Beauty  Gainsborough's Most Trusted Salon Since 1995</title>
     <meta name="description" content="Caring for Gainsborough's nails for 30 years. Expert gel manicures, eye treatments, and a personal studio experience. No online faff—just call for a proper chat.">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,34 +22,6 @@
         })();
     </script>
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        amethyst: {
-                            50:  '#fcfaff',
-                            100: '#f5f0ff',
-                            200: '#ece3ff',
-                            300: '#d9c7ff',
-                            400: '#b899ff',
-                            500: '#9b6bff',
-                            600: '#843dff',
-                            700: '#7329ef',
-                            800: '#5f22c6',
-                            900: '#4f1da4',
-                            950: '#0f0a1f',
-                        }
-                    },
-                    fontFamily: {
-                        serif: ['Playfair Display', 'Georgia', 'serif'],
-                        sans:  ['Inter', 'system-ui', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
 
     <style>
         /* ── Gallery scrollbar ── */
@@ -1393,9 +1365,6 @@
          SCRIPTS
     ════════════════════════════════════════ -->
     <script>
-        // Base URL for price fetching
-        var BASE_URL = 'https://www.amethystnails.co.uk/index.html';
-
         lucide.createIcons();
 
         // ── Slim sticky nav: shrink when scrolled past 50px ──
