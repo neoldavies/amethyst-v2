@@ -348,6 +348,7 @@
 <!-- Body bg controlled by CSS above; text and selection adapt -->
 <body class="text-slate-900 dark:text-white font-sans antialiased selection:bg-amethyst-300 selection:text-amethyst-900 dark:selection:bg-amethyst-700 dark:selection:text-white">
 
+    <a href="#services" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-amethyst-900 focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:text-sm focus:font-semibold">Skip to content</a>
 
     <!-- ════════════════════════════════════════
          NAVIGATION
@@ -414,6 +415,7 @@
         </div>
     </nav>
 
+    <main id="main-content">
 
     <!-- ════════════════════════════════════════
          HERO
@@ -526,7 +528,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- BIAB -->
-                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <a href="#contact" onclick="if(window.innerWidth<768){event.preventDefault();window.location.href='tel:01427617211';}" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50 block">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="flask-conical" class="w-6 h-6"></i>
                     </div>
@@ -538,10 +540,10 @@
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">HEMA-Free</span>
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">3–4 week wear</span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Gel Polish -->
-                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <a href="#contact" onclick="if(window.innerWidth<768){event.preventDefault();window.location.href='tel:01427617211';}" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50 block">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="paintbrush" class="w-6 h-6"></i>
                     </div>
@@ -553,10 +555,10 @@
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">2–3 week wear</span>
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">French available</span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Nail Art & Chrome -->
-                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <a href="#contact" onclick="if(window.innerWidth<768){event.preventDefault();window.location.href='tel:01427617211';}" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50 block">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="wand-2" class="w-6 h-6"></i>
                     </div>
@@ -568,10 +570,10 @@
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Chrome & Foil</span>
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Bespoke design</span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Lash Extensions -->
-                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <a href="#contact" onclick="if(window.innerWidth<768){event.preventDefault();window.location.href='tel:01427617211';}" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50 block">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="eye" class="w-6 h-6"></i>
                     </div>
@@ -584,10 +586,10 @@
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Russian Volume</span>
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Infills</span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Brow Treatments -->
-                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <a href="#contact" onclick="if(window.innerWidth<768){event.preventDefault();window.location.href='tel:01427617211';}" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50 block">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="pencil" class="w-6 h-6"></i>
                     </div>
@@ -599,10 +601,10 @@
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Lamination</span>
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Waxing & shaping</span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Tinting -->
-                <div onclick="bookService()" style="cursor:pointer;" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50">
+                <a href="#contact" onclick="if(window.innerWidth<768){event.preventDefault();window.location.href='tel:01427617211';}" class="group bg-amethyst-50/80 dark:bg-amethyst-900/50 hover:bg-amethyst-100 dark:hover:bg-amethyst-900 border border-amethyst-100 dark:border-amethyst-800 hover:border-amethyst-300 dark:hover:border-amethyst-600 p-8 rounded-2xl transition-all hover:shadow-md dark:hover:shadow-amethyst-900/50 block">
                     <div class="w-12 h-12 bg-amethyst-100 dark:bg-amethyst-800 group-hover:bg-amethyst-200 dark:group-hover:bg-amethyst-700 rounded-xl flex items-center justify-center mb-5 text-amethyst-900 dark:text-amethyst-400 transition-colors">
                         <i data-lucide="droplets" class="w-6 h-6"></i>
                     </div>
@@ -614,7 +616,7 @@
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">Patch tested</span>
                         <span class="text-xs bg-amethyst-100 dark:bg-amethyst-800 text-amethyst-900 dark:text-amethyst-300 px-2.5 py-1 rounded-full font-medium">4–6 week wear</span>
                     </div>
-                </div>
+                </a>
 
             </div>
 
@@ -1294,6 +1296,8 @@
         </div>
     </section>
 
+
+    </main>
 
     <!-- ════════════════════════════════════════
          FOOTER
