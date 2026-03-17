@@ -280,7 +280,6 @@
             color: #fff;
             box-shadow: 0 4px 18px rgba(79,29,164,0.45);
             text-decoration: none;
-            overflow: hidden;
             transition: width 0.4s ease-in-out,
                         border-radius 0.4s ease-in-out,
                         padding 0.4s ease-in-out,
@@ -291,6 +290,10 @@
         #fab-call:active {
             transform: scale(1.07);
             box-shadow: 0 6px 24px rgba(79,29,164,0.6);
+        }
+        #fab-call svg {
+            opacity: 1;
+            flex-shrink: 0;
         }
         #fab-call.fab-pill {
             width: auto;
