@@ -312,6 +312,13 @@
         #fab-call.fab-label-fade #fab-label {
             opacity: 0;
         }
+        @keyframes fabBounce {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(0.75); }
+            65%  { transform: scale(1.15); }
+            80%  { transform: scale(0.92); }
+            100% { transform: scale(1); }
+        }
     </style>
 
     <script type="application/ld+json">
@@ -1523,10 +1530,8 @@
 
     <!-- ── Mobile FAB: call button ── -->
     <a id="fab-call" href="tel:01427617211" aria-label="Call Amethyst Nails &amp; Beauty">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true" style="flex-shrink:0">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.61 5.61l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
         <span id="fab-label">Call Now</span>
     </a>
@@ -1545,6 +1550,8 @@
                 fab.classList.add('fab-label-fade');           // fade label out (0.3 s)
                 setTimeout(function () {
                     fab.classList.remove('fab-pill', 'fab-label-fade'); // shrink to circle
+                    fab.style.animation = 'fabBounce 0.5s ease-in-out forwards';
+                    setTimeout(function () { fab.style.animation = ''; }, 500);
                     sessionStorage.setItem('fab-seen', '1');
                 }, 350); // slight overlap so it feels smooth
             }, 2500);
