@@ -261,6 +261,57 @@
                 flex-direction: row;
             }
         }
+
+        /* ── Mobile FAB call button ── */
+        #fab-call {
+            position: fixed;
+            bottom: 24px;
+            right: 20px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            padding: 0;
+            background-color: #4f1da4;
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(79,29,164,0.45);
+            text-decoration: none;
+            overflow: hidden;
+            transition: width 0.4s ease-in-out,
+                        border-radius 0.4s ease-in-out,
+                        padding 0.4s ease-in-out,
+                        transform 0.2s ease-in-out,
+                        box-shadow 0.2s ease-in-out;
+        }
+        #fab-call:hover,
+        #fab-call:active {
+            transform: scale(1.07);
+            box-shadow: 0 6px 24px rgba(79,29,164,0.6);
+        }
+        #fab-call.fab-pill {
+            width: auto;
+            border-radius: 999px;
+            padding: 0 24px 0 16px;
+        }
+        #fab-label {
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+        }
+        #fab-call.fab-pill #fab-label {
+            opacity: 1;
+        }
+        #fab-call.fab-label-fade #fab-label {
+            opacity: 0;
+        }
     </style>
 
     <script type="application/ld+json">
@@ -1470,36 +1521,34 @@
         });
     </script>
 
-    <!-- ════════════════════════════════════════
-         MOBILE FAB — CALL BUTTON
-    ════════════════════════════════════════ -->
-    <a href="tel:01427617211"
-       aria-label="Call Amethyst"
-       style="
-         position: fixed;
-         bottom: 20px;
-         right: 20px;
-         z-index: 9999;
-         width: 60px;
-         height: 60px;
-         border-radius: 50%;
-         background: #7329ef;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         box-shadow: 0 4px 20px rgba(115,41,239,0.45);
-         transition: transform 0.18s ease, box-shadow 0.18s ease;
-         text-decoration: none;
-       "
-       onmouseenter="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 28px rgba(115,41,239,0.6)'"
-       onmouseleave="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(115,41,239,0.45)'"
-       ontouchstart="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 28px rgba(115,41,239,0.6)'"
-       ontouchend="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(115,41,239,0.45)'"
-    >
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.61 5.61l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+    <!-- ── Mobile FAB: call button ── -->
+    <a id="fab-call" href="tel:01427617211" aria-label="Call Amethyst Nails &amp; Beauty">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true" style="flex-shrink:0">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
+        <span id="fab-label">Call Now</span>
     </a>
 
+    <script>
+        (function () {
+            var fab   = document.getElementById('fab-call');
+            var label = document.getElementById('fab-label');
+            if (sessionStorage.getItem('fab-seen')) return; // already seen — stay as circle
+
+            // Expand to pill immediately
+            fab.classList.add('fab-pill');
+
+            // After 2.5 s, fade the label then shrink back to circle
+            setTimeout(function () {
+                fab.classList.add('fab-label-fade');           // fade label out (0.3 s)
+                setTimeout(function () {
+                    fab.classList.remove('fab-pill', 'fab-label-fade'); // shrink to circle
+                    sessionStorage.setItem('fab-seen', '1');
+                }, 350); // slight overlap so it feels smooth
+            }, 2500);
+        })();
+    </script>
 </body>
 </html>
