@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0d0818"/>
+  <rect width="1200" height="630" fill="url(#grad)"/>
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" style="stop-color:#2d1060;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0d0818;stop-opacity:1"/>
+    </radialGradient>
+  </defs>
+  <polygon points="600,180 650,280 760,280 670,340 700,440 600,380 500,440 530,340 440,280 550,280" fill="#7329ef" opacity="0.9"/>
+  <text x="600" y="490" font-family="Georgia, serif" font-size="52" font-weight="700" fill="white" text-anchor="middle" letter-spacing="1">Amethyst Nails &amp; Beauty</text>
+  <text x="600" y="548" font-family="Georgia, serif" font-size="26" fill="#9b6bff" text-anchor="middle" letter-spacing="2">Gainsborough · Since 1995</text>
+</svg>
